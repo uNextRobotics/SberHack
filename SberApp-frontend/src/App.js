@@ -8,16 +8,10 @@ import styled, { createGlobalStyle } from "styled-components";
 import { sberBox } from "@sberdevices/plasma-tokens/typo";
 import { darkJoy } from "@sberdevices/plasma-tokens/themes";
 import { text, background, gradient } from "@sberdevices/plasma-tokens";
-import Shop from "./pages/Shop";
-import Main from "./pages/Main";
+import SportCalendar from "./pages/SportCalendar";
 import { body1 } from "@sberdevices/ui/components/Typography";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import Game from "./pages/Game";
-import { useToast, ToastProvider } from "@sberdevices/ui";
-import { isSameDay } from "date-fns";
-import { ru } from "date-fns/locale";
-import { Calendar } from "react-nice-dates";
-import "react-nice-dates/build/style.css";
+import Main from "./pages/Main";
 import { Container, Header } from "@sberdevices/ui";
 
 import {
@@ -99,7 +93,6 @@ function App() {
       }
     }
   };
-  const { showToast } = useToast();
 
   const [categories, setCategories] = useState([]);
   const [category, setCategory] = useState("");
@@ -113,7 +106,6 @@ function App() {
   const [symbolAnswer, setsymbolAnswer] = useState("");
   const [isGame, setIsGame] = useState();
   const [score, setScore] = useState(0);
-  const [selectedDates, setSelectedDates] = useState([]);
 
   useEffect(() => {
     //APIHelperCategory.createCategory("Случайное");
@@ -181,12 +173,8 @@ function App() {
     ) {
       randomQuest(questions);
       setScore(score + 1);
-      ToastSuccess();
-      mess = "correct";
     } else {
       setAttempts(attempts - 1);
-      ToastError();
-      mess = "wrong";
     }
     //assistant.current.sendData({ action: { action_id: 'done', parameters: { title: 'купить хлеб' } } });
   };
@@ -225,73 +213,22 @@ function App() {
       console.log("Current auestion undefined");
     }
   };
-  const ToastError = async (mess) => {
-    toast.error("Неверно", {
-      position: "top-right",
-    });
-  };
-  const ToastSuccess = async (mess) => {
-    toast.success("Верно!", {
-      position: "top-right",
-    });
-  };
-  const modifiers = {
-    selected: (date) =>
-      selectedDates.some((selectedDate) => isSameDay(selectedDate, date)),
-  };
-  const handleDayClick = (date) => {
-    setSelectedDates([...selectedDates, date]);
-  };
+
   return (
     <AppStyled>
-      <div>
-        <ToastContainer
-          position="top-right"
-          backgroundColor="#2a2736"
-          autoClose={2000}
-          hideProgressBar={true}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-        />
-      </div>
       <TypoScale />
       <DocStyles />
       <Theme />
-      <div>
-        <Calendar
-          onDayClick={handleDayClick}
-          modifiers={modifiers}
-          locale={ru}
-        />
-      </div>
+      <div></div>
 
       <Router>
         <Switch>
-          <Route path="/shop" exact>
-            <Shop />
+          <Route path="/calendar" exact>
+            <SportCalendar />
           </Route>
-          <Route path="/game" exact>
-            <Game
-              attempts={attempts}
-              score={score}
-              currentQuest={currentQuest}
-              Answers={Answers}
-              checkQuestion={checkQuestion}
-              category={category}
-              setIsGame={setIsGame}
-              chooseCategory={chooseCategory}
-            />
-          </Route>
+
           <Route path="/">
-            <Main
-              categories={categories}
-              game={isGame}
-              chooseCategory={chooseCategory}
-            />
+            <Main />
           </Route>
         </Switch>
       </Router>

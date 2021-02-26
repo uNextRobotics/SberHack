@@ -12,19 +12,3 @@
   align-items: center;
   align-content: center;
 }
-
-.nice-dates-day {
-  color: #111;
-}
-
-.nice-dates-popover {
-  color: red !important;
-  box-shadow: none;
-  border: 1px solid #ddd;
-  border-radius: 2px;
-  max-width: 480px !important;
-  transition: none;
-}
-.nice-dates-day:before {
-  background-color: gray !important;
-}

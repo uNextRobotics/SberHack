@@ -1,0 +1,31 @@
+.nice-dates-day {
+  color: var(--plasma-colors-text) !important;
+}
+
+.nice-dates-popover {
+  box-shadow: none;
+  border: 1px solid #ddd;
+  border-radius: 2px;
+  max-width: 480px !important;
+  transition: none;
+}
+.nice-dates-navigation_current {
+  color: var(--plasma-colors-text) !important;
+}
+.nice-dates-day {
+  height: 60px !important;
+  border-radius: 0 !important;
+}
+.nice-dates-day:before {
+  background-color: var(--plasma-colors-accent) !important;
+}
+.nice-dates-day:after {
+  background-color: var(--plasma-colors-buttonWarning) !important;
+}
+.nice-dates-navigation {
+  height: 10vh !important;
+}
+.nice-dates-grid {
+  height: 60vh !important;
+  margin-bottom: 10vh;
+}
