@@ -1,5 +1,6 @@
 .nice-dates-day {
   color: var(--plasma-colors-text) !important;
+  font-size: large !important;
 }
 
 .nice-dates-popover {

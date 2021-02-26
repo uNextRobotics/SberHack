@@ -12,8 +12,7 @@ import SportCalendar from "./pages/SportCalendar";
 import { body1 } from "@sberdevices/ui/components/Typography";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Main from "./pages/Main";
-import { Container, Header } from "@sberdevices/ui";
-
+import Workout from "./pages/Workout";
 import {
   createSmartappDebugger,
   createAssistant,
@@ -50,10 +49,6 @@ const initializeAssistant = (getState /*: any*/) => {
     });
   }
   return createAssistant({ getState });
-};
-
-const insertData = async () => {
-  await APIHelperQuestion.InsterQuestion();
 };
 
 function App() {
@@ -219,14 +214,14 @@ function App() {
       <TypoScale />
       <DocStyles />
       <Theme />
-      <div></div>
-
       <Router>
         <Switch>
+          <Route path="/fastworkout">
+            <Workout />
+          </Route>
           <Route path="/calendar" exact>
             <SportCalendar />
           </Route>
-
           <Route path="/">
             <Main />
           </Route>
