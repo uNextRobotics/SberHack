@@ -1,0 +1,30 @@
+.completed {
+  text-decoration: line-through;
+  color: gray;
+}
+
+.App {
+  margin: 10rem auto;
+  width: 800px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+}
+
+.nice-dates-day {
+  color: #111;
+}
+
+.nice-dates-popover {
+  color: red !important;
+  box-shadow: none;
+  border: 1px solid #ddd;
+  border-radius: 2px;
+  max-width: 480px !important;
+  transition: none;
+}
+.nice-dates-day:before {
+  background-color: gray !important;
+}
