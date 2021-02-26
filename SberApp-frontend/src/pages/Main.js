@@ -60,20 +60,23 @@ const Main = () => {
               right={<CellDisclosure />}
             />
           </Link>
-          <Cell
-            left={
-              <CellIcon>
-                <IconApps />
-              </CellIcon>
-            }
-            content={
-              <TextBox>
-                <TextBoxTitle>Выбрать тренировку</TextBoxTitle>
-                <TextBoxSubTitle>По категориям</TextBoxSubTitle>
-              </TextBox>
-            }
-            right={<CellDisclosure />}
-          />
+          <Link to="/choose" style={{ textDecoration: "none" }}>
+            <Cell
+              left={
+                <CellIcon>
+                  <IconApps />
+                </CellIcon>
+              }
+              content={
+                <TextBox>
+                  <TextBoxTitle>Выбрать тренировку</TextBoxTitle>
+                  <TextBoxSubTitle>По категориям</TextBoxSubTitle>
+                </TextBox>
+              }
+              right={<CellDisclosure />}
+            />
+          </Link>
+
           <Link
             to="/calendar"
             style={{

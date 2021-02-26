@@ -13,6 +13,7 @@ import { body1 } from "@sberdevices/ui/components/Typography";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Main from "./pages/Main";
 import Workout from "./pages/Workout";
+import Choose from "./pages/Choose";
 import {
   createSmartappDebugger,
   createAssistant,
@@ -216,6 +217,9 @@ function App() {
       <Theme />
       <Router>
         <Switch>
+          <Route path="/choose">
+            <Choose />
+          </Route>
           <Route path="/fastworkout">
             <Workout />
           </Route>
