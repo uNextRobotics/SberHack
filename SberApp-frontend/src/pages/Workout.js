@@ -10,7 +10,8 @@ import {
   Body1,
 } from "@sberdevices/ui/components/Typography";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
-
+import { createBrowserHistory } from "history";
+import { BrowserRouter as Router, useHistory } from "react-router-dom";
 import { IconDone, IconLock } from "@sberdevices/plasma-icons";
 import {
   MarkedList,
@@ -26,6 +27,7 @@ import {
   CardHeadline1,
 } from "@sberdevices/ui";
 import "./Workout.css";
+
 const renderTime = ({ remainingTime }) => {
   if (remainingTime === 0) {
     return <div className="timer">Стоп</div>;
@@ -42,7 +44,9 @@ const renderTime = ({ remainingTime }) => {
 var longText =
   "Канадский актёр, кинопродюсер, и музыкант. Наиболее известен своими ролями в киносериях «Матрица» и «Джон Уик», а также в фильмах «На гребне волны», «Мой личный штат Айдахо», «Дракула», «Скорость», «Джонни-мнемоник», «Адвокат дьявола», «Константин: Повелитель тьмы» и «Короли улиц».";
 const Workout = () => {
-  return (
+  const history = useHistory();
+  const [workOutStarted, setWorkOutStartet] = useState(false);
+  return !workOutStarted ? (
     <>
       <div
         style={{
@@ -67,7 +71,13 @@ const Workout = () => {
             </MarkedItem>
           </MarkedList>
           <br />
-          <Button>Начать</Button>
+          <Button
+            onClick={() => {
+              setWorkOutStartet(true);
+            }}
+          >
+            Начать
+          </Button>
         </div>
         <div style={{ flexDirection: "column" }}>
           <Card style={{ width: "20rem" }}>
@@ -116,6 +126,23 @@ const Workout = () => {
         </Card> */}
       </div>
     </>
+  ) : (
+    <div>
+      <Button
+        onClick={() => {
+          setWorkOutStartet(false);
+        }}
+      >
+        Закончить
+      </Button>
+      <Button
+        onClick={() => {
+          history.push("/");
+        }}
+      >
+        На главную
+      </Button>
+    </div>
   );
 };
 
