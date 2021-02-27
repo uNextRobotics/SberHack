@@ -58,8 +58,8 @@ export const Timer = ({ setIter, category, chooseCategory, iter }) => {
   function closeModal() {
     setIsOpen(false);
   }
-  const [counter, setCounter] = React.useState(4);
-  const [counterRest, setCounterRest] = React.useState(3);
+  const [counter, setCounter] = React.useState(15);
+  const [counterRest, setCounterRest] = React.useState(6);
   React.useEffect(() => {
     let timer;
     if (counter > 0) {

@@ -54,7 +54,7 @@ const Choose = () => {
                         <TextBoxBigTitle>{name}</TextBoxBigTitle>
 
                         <TextBoxSubTitle>
-                          {"На 18 месяцев, ставка 13,9%"}
+                          {"Описание тренировки"}
                         </TextBoxSubTitle>
                       </TextBox>
 

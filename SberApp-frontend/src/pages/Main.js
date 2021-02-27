@@ -72,8 +72,8 @@ const Main = ({ setGroupId }) => {
               }
               content={
                 <TextBox>
-                  <TextBoxTitle>Выбрать тренировку</TextBoxTitle>
-                  <TextBoxSubTitle>По категориям</TextBoxSubTitle>
+                  <TextBoxTitle>Меню тренировок</TextBoxTitle>
+                  <TextBoxSubTitle>На любой вкус</TextBoxSubTitle>
                 </TextBox>
               }
               right={<CellDisclosure />}
