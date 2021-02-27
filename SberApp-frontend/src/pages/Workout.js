@@ -1,4 +1,4 @@
-import { Button, Container } from "@sberdevices/ui";
+import { Button, Container, TextField } from "@sberdevices/ui";
 import React, { useState, useEffect } from "react";
 import { withRouter, Link } from "react-router-dom";
 import ApiQueries from "../ApiQueries";
@@ -9,6 +9,8 @@ import {
   Display3,
   Headline3,
   Body1,
+  Body3,
+  Body2,
 } from "@sberdevices/ui/components/Typography";
 import { Headline2 } from "@sberdevices/ui/components/Typography";
 
@@ -16,6 +18,8 @@ import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import { createBrowserHistory } from "history";
 import { BrowserRouter as Router, useHistory } from "react-router-dom";
 import { IconDone, IconLock } from "@sberdevices/plasma-icons";
+import { IconHouse } from "@sberdevices/plasma-icons";
+
 import {
   MarkedList,
   MarkedItem,
@@ -24,6 +28,7 @@ import {
   CardMedia,
   CardContent,
   TextBoxBigTitle,
+  TextBoxBiggerTitle,
   TextBox,
   TextBoxSubTitle,
   CardParagraph1,
@@ -45,9 +50,22 @@ const renderTime = ({ remainingTime }) => {
     </div>
   );
 };
+var date = new Date();
+var options = {
+  year: "numeric",
+  month: "numeric",
+  day: "numeric",
+  timezone: "UTC",
+};
 var longText =
   "Канадский актёр, кинопродюсер, и музыкант. Наиболее известен своими ролями в киносериях «Матрица» и «Джон Уик», а также в фильмах «На гребне волны», «Мой личный штат Айдахо», «Дракула», «Скорость», «Джонни-мнемоник», «Адвокат дьявола», «Константин: Повелитель тьмы» и «Короли улиц».";
-const Workout = ({ groupId, workoutExercises, setWorkoutExercises }) => {
+const Workout = ({
+  groupId,
+  workoutExercises,
+  setWorkoutExercises,
+  description,
+  name,
+}) => {
   const history = useHistory();
   const [workOutStarted, setWorkOutStartet] = useState(false);
   const fetchCategoriesAndSetCategories = async () => {
@@ -68,7 +86,7 @@ const Workout = ({ groupId, workoutExercises, setWorkoutExercises }) => {
         }}
       >
         <div style={{ flexDirection: "column" }}>
-          <Headline2>Название тренировки</Headline2>
+          <Headline2>{name}</Headline2>
 
           {workoutExercises ? (
             <MarkedList>
@@ -99,9 +117,9 @@ const Workout = ({ groupId, workoutExercises, setWorkoutExercises }) => {
                   <TextBoxBigTitle>Описание</TextBoxBigTitle>
                   <TextBoxSubTitle>10 минут</TextBoxSubTitle>
                   <CardParagraph1 style={{ marginTop: "0.75rem" }} lines={4}>
-                    {longText}
+                    {description}
                   </CardParagraph1>
-                  <TextBoxSubTitle>ru.wikipedia.org</TextBoxSubTitle>
+                  <TextBoxSubTitle>Подходит для женщин</TextBoxSubTitle>
                 </TextBox>
               </CardContent>
             </CardBody>
@@ -132,10 +150,48 @@ const Workout = ({ groupId, workoutExercises, setWorkoutExercises }) => {
             {workoutExercises ? (
               <div>
                 {iter == workoutExercises.length ? (
-                  <div>
-                    <TextBoxBigTitle>
-                      Тренировка закончена, молодец!
-                    </TextBoxBigTitle>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "space-around",
+                    }}
+                  >
+                    <TextBoxBigTitle>Тренировка завершена</TextBoxBigTitle>
+
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-around",
+                      }}
+                    >
+                      <div style={{ flexDirection: "column" }}>
+                        <CardParagraph1>
+                          {date.toLocaleString("ru", options)}{" "}
+                        </CardParagraph1>
+                        <TextBoxSubTitle>Время выполнения</TextBoxSubTitle>
+                      </div>
+
+                      {workoutExercises ? (
+                        <MarkedList>
+                          {workoutExercises.map(({ _id, name }, i) => (
+                            <MarkedItem text={name} style={{ color: primary }}>
+                              <IconDone size="xs" color={accent} />
+                            </MarkedItem>
+                          ))}
+                        </MarkedList>
+                      ) : (
+                        <Spinner />
+                      )}
+                    </div>
+                    <br />
+                    <Button
+                      onClick={() => {
+                        history.push("/");
+                      }}
+                    >
+                      <IconHouse />
+                    </Button>
                   </div>
                 ) : (
                   <div>
@@ -149,15 +205,18 @@ const Workout = ({ groupId, workoutExercises, setWorkoutExercises }) => {
                         flexDirection: "row",
                       }}
                     >
-                      <img
-                        style={{
-                          width: "auto",
-                          heigh: "auto",
-                          maxWidth: "500px",
-                          borderRadius: "25px",
-                        }}
-                        src="https://chslovo.com/wp-content/uploads/2019/03/21-1.jpg"
-                      />
+                      <div class="wrapper exmp2">
+                        <img src={workoutExercises[iter].photo} />
+                      </div>
+                      {/* <img
+                          style={{
+                            width: "auto",
+                            heigh: "auto",
+                            maxWidth: "500px",
+                            borderRadius: "25px",
+                          }}
+                          src="https://chslovo.com/wp-content/uploads/2019/03/21-1.jpg"
+                        /> */}
 
                       <div
                         style={{ flexDirection: "column", margin: "0.75rem" }}
@@ -167,7 +226,7 @@ const Workout = ({ groupId, workoutExercises, setWorkoutExercises }) => {
                           timeCount={workoutExercises[iter].time}
                           iter={iter}
                         />
-                        <CardParagraph1 lines={4}>
+                        <CardParagraph1 lines={5}>
                           {workoutExercises[iter].discription}
                         </CardParagraph1>
                         <Button

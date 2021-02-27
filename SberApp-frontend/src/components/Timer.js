@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import Modal from "react-modal";
 import { text, background, gradient } from "@sberdevices/plasma-tokens";
 import { Button } from "@sberdevices/ui";
-import { IconRefresh, IconHouse } from "@sberdevices/plasma-icons";
+import { IconHouse } from "@sberdevices/plasma-icons";
 import "./Modal.css";
 import { Headline2 } from "@sberdevices/ui/components/Typography";
 import { BrowserRouter as Router, useHistory } from "react-router-dom";

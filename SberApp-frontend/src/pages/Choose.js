@@ -18,7 +18,7 @@ import {
 import { Headline2 } from "@sberdevices/ui/components/Typography";
 import "./Workout.css";
 
-const Choose = () => {
+const Choose = ({ setGroupId, setDescription, setName }) => {
   const [workouts, setWorkouts] = useState([]);
   const fetchCategoriesAndSetCategories = async () => {
     const workouts = await ApiQueries.getAllGroupsExercises();
@@ -36,7 +36,7 @@ const Choose = () => {
       <br />
       <Row>
         {workouts.data ? (
-          workouts.data.map(({ _id, name }, i) => (
+          workouts.data.map(({ name, short_discription, discription }, i) => (
             <>
               <Col type="calc" size={1}>
                 <Card
@@ -52,10 +52,7 @@ const Choose = () => {
                     <CardContent>
                       <TextBox>
                         <TextBoxBigTitle>{name}</TextBoxBigTitle>
-
-                        <TextBoxSubTitle>
-                          {"Описание тренировки"}
-                        </TextBoxSubTitle>
+                        <TextBoxSubTitle>{short_discription}</TextBoxSubTitle>
                       </TextBox>
 
                       <Link
@@ -73,6 +70,12 @@ const Choose = () => {
                           fullWidth
                           style={{ marginTop: "1em" }}
                           tabIndex={-1}
+                          onClick={() => {
+                            console.log(workouts.data);
+                            setGroupId(i + 1);
+                            setDescription(discription);
+                            setName(name);
+                          }}
                         >
                           Выбрать
                         </Button>

@@ -43,7 +43,7 @@ const initializeAssistant = (getState /*: any*/) => {
   if (process.env.NODE_ENV === "development") {
     return createSmartappDebugger({
       token:
-        "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MTQzNTMxNDMsImV4cCI6MTYxNDQzOTU0MywidHlwZSI6IkJlYXJlciIsImp0aSI6ImRkOTY0MzI3LTczOTQtNGMzMy1iNjk2LWUyYThhYzFhNDA3NCIsInN1YiI6IjdkMTM4N2FhY2RiYjY0ZTMwNTE3ODQ3ZGVhNzgwMDNmMTA4NjE1YmNlZGIzNTlmYjhmNWJiMWVkOGI0OTU3ZmM1MzliZTkyNzAwNDI2Mjk4IiwiYXVkIjoiVlBTIn0.nogJI3-W2AtcQeaMNEOMjNLhOF4R4vbzUE0vrZuaj_omlv64NeQ3hdbuiGeSIRhtELiFO7d8Dvv9xkz9DO7x2maQZoC6sZB76XVK3og-1D_gNhUDSTAsoKn9B2JYcIGmIt50axXPpttHYGRIm8lGZT8olURbqRmdB2J4kGuouRhUiNaBZxp_BGrVnh2o1LYEd0Q6_M-6rDLlE7uMxUfyilNE_wuukP8fdLYICmNL9lhZEdIqFoYdg7PqkRiTn0cmZvbQAzxWex589hdH4SHNO7ai8VXAZ2b6bNbssrHTTUQSjIVGWxAiAZ2APnzrst7L36XO7gKFulYpwLp4sGct04sLJd9bt6uYofbl25iEQwdOA0QeI5DtbG_K-tlB5_9BM8J14b3NrjleOx2p82oPkPhBBBPZO6PW9FykguQsxVLbj4Nif4kD191rlVOjXNw_PcrIyVP_UkVlU5ut9rnx0yhKqgLd7utKV128m9a8fLtxhMI1oKb6NUz3ZJHRwkHq02IfUD5l0-VtPVDDvuJfNRre27ut3k_NqJxBYcuGydBO_TM2gBYxGFuKSRhr-1omvm2x0_o3xNQxH4WoPxPeZS9Q7fZI6rivJirqkfNhR_xufqqlklR3R3h6jDFLwXXZ9azpqNGTqylWb-D1fQhm9pMnBXHTDyND5sfo4qYIamw        " ??
+        "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MTQ0Mzk4MjEsImV4cCI6MTYxNDUyNjIyMSwidHlwZSI6IkJlYXJlciIsImp0aSI6IjdhOWE4ZDE5LTU2OGItNGQ3MS04Yjc5LWU3NTYxMmM5N2YyNiIsInN1YiI6IjdkMTM4N2FhY2RiYjY0ZTMwNTE3ODQ3ZGVhNzgwMDNmMTA4NjE1YmNlZGIzNTlmYjhmNWJiMWVkOGI0OTU3ZmM1MzliZTkyNzAwNDI2Mjk4IiwiYXVkIjoiVlBTIn0.EsqFDE49mQraG-zSHVcgEqjmpKxeman2krVIdI9Ojyyd1L_gOz4G2OJzeqQgCvHjDulpGeRxSqg56rbEqF41Ll9yf-f9bhCi6TLI2vYghPG2FpROLOwUx6CHztlklVk8A9J9z0tdqXYG99SFpG7QlcwaEcjzqqPfkq9bBlN3fOckl7xKiTkfVWyTY2NtY4TBwF1KxFUMJjxJM2yCFZ2P6bw0TrfnUh8p6QvGTifVMAlx-GZuOVXHx7wC8JY06iPlniF1odeYiHySO2bLAc0RES3wdyLUN1AgIkrfyNZdRuh6lW52fX7LiGwIL_4ixW7iPymq-VGTuqVPGGrUszdNPbMHmfTLiD3xB1oTMjssGDSwt4X079WGYpPPhune0Xbxja2fMghkv-yx1OE4fwvWWHHP37umQtJiEXaIAnntROhPylom-v4JBvk0iuuDXjXH3h9_8df3wNwKViopdJE-Rpp0ZM8O-BoCoH-TZoB_GhKe61duJHsv5jRqymf9-tkr_aYVWo1tuL2cj8yXXWyJttwJbfHJ3vySguWwrX90SfMBB8sPVN8zUtTTNGizizLfedhNeoapydhqJXE6lSTGwjoHQ1uRRa2kU8pO6PfHI-Ypabo133LUdZH7XV5uGkaKx1NqX5Z2B7zYjzhO7FfF0W6BVGnYZgRQ6XLpTqPwqz0        " ??
         "",
       initPhrase: `Запусти MorningTraining`,
       getState,
@@ -143,7 +143,6 @@ function App() {
     });
 
     //assistant.sendData({ action: { action_id: 'done', parameters: { title: 'купить хлеб' } } });
-    console.log("UseEffect");
 
     if (assistant.current != null) {
       console.log("Non null, send data");
@@ -152,7 +151,9 @@ function App() {
       console.log("Null");
     }
   }, []);
-  const [groupId, setGroupId] = useState();
+  const [groupId, setGroupId] = useState(2);
+  const [description, setDescription] = useState("описание");
+  const [name, setName] = useState("Быстрая тренировка");
   return (
     <AppStyled>
       <TypoScale />
@@ -160,13 +161,19 @@ function App() {
       <Theme />
       <Switch>
         <Route path="/choose">
-          <Choose setGroupId={setGroupId} />
+          <Choose
+            setGroupId={setGroupId}
+            setDescription={setDescription}
+            setName={setName}
+          />
         </Route>
         <Route path="/fastworkout">
           <Workout
             groupId={groupId}
+            description={description}
             workoutExercises={workoutExercises}
             setWorkoutExercises={setWorkoutExercises}
+            name={name}
           />
         </Route>
         <Route path="/calendar" exact>
