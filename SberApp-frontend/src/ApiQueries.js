@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://127.0.0.1:8000/";
+const API_URL = "http://194.58.122.45:6537/";
 async function createSberId(SberId) {
   const { data: newSberId } = await axios.post(`${API_URL}SberId`, {
     SberId,
@@ -88,6 +88,4 @@ async function updateQuestion(id, payload) {
   const { data: newQuestion } = await axios.put(`${API_URL}${id}`, payload);
   return newQuestion;
 }
-export default {
-  getAllGroupsExercises,
-};
+export default { API_URL, getAllGroupsExercises };

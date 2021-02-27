@@ -52,7 +52,6 @@ const initializeAssistant = (getState /*: any*/) => {
 };
 
 function App() {
-  //APIHelperQuestion.deleteQuestion("603098e0d04272015ccccb4f");
   var assistant = useRef();
   var state = {
     notes: [],
@@ -109,17 +108,6 @@ function App() {
   };
 
   const [workouts, setWorkouts] = useState([]);
-  const [category, setCategory] = useState("");
-
-  const [questions, setQuestions] = useState([]);
-
-  const [currentQuest, setcurrentQuest] = useState("");
-  const [currentAns, setCurrentAns] = useState("");
-  const [attempts, setAttempts] = useState(5);
-  const [Answers, setAnswers] = useState([]);
-  const [symbolAnswer, setsymbolAnswer] = useState("");
-  const [isGame, setIsGame] = useState();
-  const [score, setScore] = useState(0);
 
   useEffect(() => {
     //APIHelperCategory.createCategory("Случайное");
@@ -142,7 +130,7 @@ function App() {
     const fetchCategoriesAndSetCategories = async () => {
       const workouts = await ApiQueries.getAllGroupsExercises();
       setWorkouts(workouts);
-      console.log(workouts);
+      //console.log(workouts);
     };
 
     fetchCategoriesAndSetCategories();
@@ -153,81 +141,6 @@ function App() {
       console.log("Null");
     }
   }, []);
-
-  const chooseCategory = async (title) => {
-    if (!title) {
-      alert("please enter somrthing");
-      return;
-    }
-    setCategory(title);
-
-    var title_ = null;
-    if (title.note != undefined) {
-      var title_ = title.note.charAt(0).toUpperCase() + title.note.slice(1);
-    } else {
-      title_ = title;
-    }
-    console.log(title_);
-    //const quest = await APIHelperQuestion.getAllQuestion(title_);
-
-    // console.log("Questttt", quest);
-    // setQuestions(quest);
-    // randomQuest(quest);
-    // setIsGame(true);
-  };
-
-  //const { showToast } = useToast();
-  const checkQuestion = async (answer) => {
-    console.log("Correct answer ", currentAns);
-    console.log("Correct symbol ans ", symbolAnswer);
-    console.log("User answer ", answer);
-    let mess = null;
-    if (
-      answer.toLowerCase() == currentAns.toLowerCase() ||
-      answer.toLowerCase() == symbolAnswer.toLocaleLowerCase()
-    ) {
-      randomQuest(questions);
-      setScore(score + 1);
-    } else {
-      setAttempts(attempts - 1);
-    }
-    //assistant.current.sendData({ action: { action_id: 'done', parameters: { title: 'купить хлеб' } } });
-  };
-  const randomQuest = async (quest) => {
-    console.log("Quest", quest);
-    let quest_count = quest.length;
-    let current_number = Math.floor(Math.random() * quest_count);
-    if (quest[current_number] != undefined) {
-      console.log("Random quest:", quest[current_number]);
-      setcurrentQuest(quest[current_number].Question);
-      setCurrentAns(quest[current_number].CorrectAnswer);
-      setAnswers([
-        quest[current_number].Answers[0],
-        quest[current_number].Answers[1],
-        quest[current_number].Answers[2],
-        quest[current_number].Answers[3],
-      ]);
-      console.log("Первый ответ", quest[current_number][0]);
-      let CorrectAnsIndex = quest[current_number].Answers.indexOf(
-        quest[current_number].CorrectAnswer
-      );
-      console.log("Answer index", CorrectAnsIndex);
-      switch (CorrectAnsIndex) {
-        case 0:
-          return setsymbolAnswer("один");
-        case 1:
-          return setsymbolAnswer("два");
-        case 2:
-          return setsymbolAnswer("три");
-        case 3:
-          return setsymbolAnswer("четыре");
-        default:
-          return setsymbolAnswer("пять");
-      }
-    } else {
-      console.log("Current auestion undefined");
-    }
-  };
 
   return (
     <AppStyled>
