@@ -15,9 +15,11 @@ const SportCalendar = () => {
       selectedDates.some((selectedDate) => isSameDay(selectedDate, date)),
   };
   const handleDayClick = (date) => {
+    var date = new Date();
     setSelectedDates([...selectedDates, date]);
     console.log(selectedDates);
   };
+
   return (
     <div style={{ height: "50%" }}>
       <Container>

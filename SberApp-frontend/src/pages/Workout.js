@@ -95,35 +95,6 @@ const Workout = () => {
             </CardBody>
           </Card>
         </div>
-
-        {/* <Card>
-          <CardBody>
-            <CardContent>
-              <TextBoxBigTitle>Таймер</TextBoxBigTitle>
-
-              <div style={{ justifyContent: "space-around" }}>
-                <CountdownCircleTimer
-                  isPlaying
-                  duration={15}
-                  colors={[["#004777", 0.33], ["#F7B801", 0.33], ["#A30000"]]}
-                  onComplete={() => [true, 1000]}
-                >
-                  {renderTime}
-                </CountdownCircleTimer>
-              </div>
-              <Button
-                text="Label"
-                view="primary"
-                size="s"
-                scaleOnInteraction={false}
-                outlined={false}
-                fullWidth
-                style={{ marginTop: "1em" }}
-                tabIndex={-1}
-              />
-            </CardContent>
-          </CardBody>
-        </Card> */}
       </div>
     </>
   ) : (
@@ -142,6 +113,34 @@ const Workout = () => {
       >
         На главную
       </Button>
+      <Card>
+        <CardBody>
+          <CardContent>
+            <TextBoxBigTitle>Таймер</TextBoxBigTitle>
+
+            <div style={{ justifyContent: "space-around" }}>
+              <CountdownCircleTimer
+                isPlaying
+                duration={15}
+                colors={[["#004777", 0.33], ["#F7B801", 0.33], ["#A30000"]]}
+                onComplete={() => [true, 1000]}
+              >
+                {renderTime}
+              </CountdownCircleTimer>
+            </div>
+            <Button
+              text="Label"
+              view="primary"
+              size="s"
+              scaleOnInteraction={false}
+              outlined={false}
+              fullWidth
+              style={{ marginTop: "1em" }}
+              tabIndex={-1}
+            />
+          </CardContent>
+        </CardBody>
+      </Card>
     </div>
   );
 };

@@ -12,6 +12,7 @@
 }
 .nice-dates-navigation_current {
   color: var(--plasma-colors-text) !important;
+  font-size: large !important;
 }
 .nice-dates-day {
   height: 60px !important;

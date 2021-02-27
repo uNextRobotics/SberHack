@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./App.css";
-import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import APIHelperCategory from "./APIHelperCategory.js";
 import APIHelperQuestion from "./APIHelperQuestion.js";
@@ -14,13 +13,13 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Main from "./pages/Main";
 import Workout from "./pages/Workout";
 import Choose from "./pages/Choose";
+import { useHistory, withRouter } from "react-router-dom";
 import {
   createSmartappDebugger,
   createAssistant,
   AssistantAppState,
 } from "@sberdevices/assistant-client";
-import { render } from "react-dom";
-import { Redirect } from "react-router-dom";
+
 const AppStyled = styled.div`
   padding: 30px;
   ${body1}
@@ -45,7 +44,7 @@ const initializeAssistant = (getState /*: any*/) => {
       token:
         "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MTQzNTMxNDMsImV4cCI6MTYxNDQzOTU0MywidHlwZSI6IkJlYXJlciIsImp0aSI6ImRkOTY0MzI3LTczOTQtNGMzMy1iNjk2LWUyYThhYzFhNDA3NCIsInN1YiI6IjdkMTM4N2FhY2RiYjY0ZTMwNTE3ODQ3ZGVhNzgwMDNmMTA4NjE1YmNlZGIzNTlmYjhmNWJiMWVkOGI0OTU3ZmM1MzliZTkyNzAwNDI2Mjk4IiwiYXVkIjoiVlBTIn0.nogJI3-W2AtcQeaMNEOMjNLhOF4R4vbzUE0vrZuaj_omlv64NeQ3hdbuiGeSIRhtELiFO7d8Dvv9xkz9DO7x2maQZoC6sZB76XVK3og-1D_gNhUDSTAsoKn9B2JYcIGmIt50axXPpttHYGRIm8lGZT8olURbqRmdB2J4kGuouRhUiNaBZxp_BGrVnh2o1LYEd0Q6_M-6rDLlE7uMxUfyilNE_wuukP8fdLYICmNL9lhZEdIqFoYdg7PqkRiTn0cmZvbQAzxWex589hdH4SHNO7ai8VXAZ2b6bNbssrHTTUQSjIVGWxAiAZ2APnzrst7L36XO7gKFulYpwLp4sGct04sLJd9bt6uYofbl25iEQwdOA0QeI5DtbG_K-tlB5_9BM8J14b3NrjleOx2p82oPkPhBBBPZO6PW9FykguQsxVLbj4Nif4kD191rlVOjXNw_PcrIyVP_UkVlU5ut9rnx0yhKqgLd7utKV128m9a8fLtxhMI1oKb6NUz3ZJHRwkHq02IfUD5l0-VtPVDDvuJfNRre27ut3k_NqJxBYcuGydBO_TM2gBYxGFuKSRhr-1omvm2x0_o3xNQxH4WoPxPeZS9Q7fZI6rivJirqkfNhR_xufqqlklR3R3h6jDFLwXXZ9azpqNGTqylWb-D1fQhm9pMnBXHTDyND5sfo4qYIamw        " ??
         "",
-      initPhrase: `Запусти ToDOAppTest2`,
+      initPhrase: `Запусти MorningTraining`,
       getState,
     });
   }
@@ -53,7 +52,6 @@ const initializeAssistant = (getState /*: any*/) => {
 };
 
 function App() {
-  console.log("Render");
   //APIHelperQuestion.deleteQuestion("603098e0d04272015ccccb4f");
   var assistant = useRef();
   var state = {
@@ -73,17 +71,37 @@ function App() {
     console.log("getStateForAssistant: state:", state);
     return state_;
   };
+
+  const ChangePage = async (page) => {
+    switch (page) {
+      case "Calendar":
+        history.push("/calendar");
+        break;
+      case "fastworkout":
+        history.push("/calendar");
+        break;
+      case "choose_training":
+        history.push("/choose");
+        break;
+      default:
+        break;
+    }
+  };
+  const history = useHistory();
+
   const dispatchAssistantAction = async (action) => {
     console.log("dispatchAssistantAction", action);
     if (action) {
       switch (action.type) {
-        case "choose_category":
-          console.log("Choose category");
-          console.log(action);
-          return chooseCategory(action);
-        case "check_answer":
-          console.log("Check Answer Voice");
-          return checkQuestion(action.note);
+        case "show_calendar":
+          ChangePage("Calendar");
+          break;
+        case "to_fast_training":
+          ChangePage("fast_training");
+          break;
+        case "to_choose_training":
+          ChangePage("choose_training");
+          break;
         default:
           throw new Error();
       }
@@ -215,23 +233,21 @@ function App() {
       <TypoScale />
       <DocStyles />
       <Theme />
-      <Router>
-        <Switch>
-          <Route path="/choose">
-            <Choose />
-          </Route>
-          <Route path="/fastworkout">
-            <Workout />
-          </Route>
-          <Route path="/calendar" exact>
-            <SportCalendar />
-          </Route>
-          <Route path="/">
-            <Main />
-          </Route>
-        </Switch>
-      </Router>
+      <Switch>
+        <Route path="/choose">
+          <Choose />
+        </Route>
+        <Route path="/fastworkout">
+          <Workout />
+        </Route>
+        <Route path="/calendar" exact>
+          <SportCalendar />
+        </Route>
+        <Route path="/">
+          <Main />
+        </Route>
+      </Switch>
     </AppStyled>
   );
 }
-export default App;
+export default withRouter(App);
