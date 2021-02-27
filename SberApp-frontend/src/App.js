@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./App.css";
 import "react-toastify/dist/ReactToastify.css";
-import APIHelperCategory from "./APIHelperCategory.js";
-import APIHelperQuestion from "./APIHelperQuestion.js";
+
 import styled, { createGlobalStyle } from "styled-components";
 import { sberBox } from "@sberdevices/plasma-tokens/typo";
 import { darkJoy } from "@sberdevices/plasma-tokens/themes";
@@ -12,6 +11,7 @@ import { body1 } from "@sberdevices/ui/components/Typography";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Main from "./pages/Main";
 import Workout from "./pages/Workout";
+import ApiQueries from "./ApiQueries";
 import Choose from "./pages/Choose";
 import { useHistory, withRouter } from "react-router-dom";
 import {
@@ -108,7 +108,7 @@ function App() {
     }
   };
 
-  const [categories, setCategories] = useState([]);
+  const [workouts, setWorkouts] = useState([]);
   const [category, setCategory] = useState("");
 
   const [questions, setQuestions] = useState([]);
@@ -140,8 +140,9 @@ function App() {
     console.log("UseEffect");
 
     const fetchCategoriesAndSetCategories = async () => {
-      const categories = await APIHelperCategory.getAllCategories();
-      setCategories(categories);
+      const workouts = await ApiQueries.getAllGroupsExercises();
+      setWorkouts(workouts);
+      console.log(workouts);
     };
 
     fetchCategoriesAndSetCategories();
@@ -151,7 +152,7 @@ function App() {
     } else {
       console.log("Null");
     }
-  }, [currentAns, symbolAnswer]);
+  }, []);
 
   const chooseCategory = async (title) => {
     if (!title) {
@@ -167,12 +168,12 @@ function App() {
       title_ = title;
     }
     console.log(title_);
-    const quest = await APIHelperQuestion.getAllQuestion(title_);
+    //const quest = await APIHelperQuestion.getAllQuestion(title_);
 
-    console.log("Questttt", quest);
-    setQuestions(quest);
-    randomQuest(quest);
-    setIsGame(true);
+    // console.log("Questttt", quest);
+    // setQuestions(quest);
+    // randomQuest(quest);
+    // setIsGame(true);
   };
 
   //const { showToast } = useToast();
