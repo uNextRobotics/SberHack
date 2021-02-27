@@ -5,8 +5,8 @@ import {
   IconCalendar,
   IconAccessibility,
   IconDone,
-  IconLock,
   IconApps,
+  IconCross,
 } from "@sberdevices/plasma-icons";
 import { Headline3 } from "@sberdevices/ui/components/Typography";
 
@@ -104,26 +104,27 @@ const Main = ({ setGroupId }) => {
         </CardContent>
       </Card>
       <div style={{ flexDirection: "column" }}>
-        <Headline3>Чек-лист на сегодня</Headline3>
+        <Headline3>Ваши достижения</Headline3>
         <br />
         <MarkedList>
-          <MarkedItem text="Выпить стакан воды" style={{ color: primary }}>
+          <MarkedItem text="Первая тренировка" style={{ color: primary }}>
             <IconDone size="xs" color={accent} />
           </MarkedItem>
-          <MarkedItem text="Сделать растяжку" style={{ color: primary }}>
+          <MarkedItem
+            text="Занятия в течение 3х дней"
+            style={{ color: primary }}
+          >
             <IconDone size="xs" color={accent} />
           </MarkedItem>
-          <MarkedItem text="Сделать 20 отжиманий" style={{ color: tertiary }}>
-            <IconLock size="xs" color={tertiary} />
-          </MarkedItem>
-          <MarkedItem text="Упражнения на спину" style={{ color: tertiary }}>
-            <IconLock size="xs" color={tertiary} />
+
+          <MarkedItem
+            text="Занятия в течение 10 дней"
+            style={{ color: tertiary }}
+          >
+            <IconCross size="xs" color={tertiary} />
           </MarkedItem>
         </MarkedList>
         <br />
-        <Button text="Button" view="clear">
-          Добавить ещё
-        </Button>
       </div>
     </div>
   );

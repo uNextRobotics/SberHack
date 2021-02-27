@@ -57,8 +57,10 @@ function App() {
   var state = {
     notes: [],
   };
-  const [workoutExercises, setWorkoutExercises] = useState([]);
+  const [workouts, setWorkouts] = useState([]);
 
+  const [workoutExercises, setWorkoutExercises] = useState([]);
+  const [userId, setUserId] = useState([]);
   const getStateForAssistant = () => {
     console.log("getStateForAssistant: this.state:", state);
     const state_ = {
@@ -92,15 +94,15 @@ function App() {
 
   const history = useHistory();
   const ChooseTrain = async (train_name) => {
-    if (workoutExercises != undefined) {
-      workoutExercises.map(({ _id, name }, i) => {
-        if (train_name == name.split(" ")[0]) {
+    train_name = train_name.charAt(0).toUpperCase() + train_name.slice(1);
+    if (workouts != undefined) {
+      workouts.map(({ _id, name }, i) => {
+        if (train_name == name) {
           var tain_id = _id;
+
           history.push("/fastworkout");
         }
       });
-    } else {
-      alert("Undef");
     }
   };
 
@@ -128,15 +130,16 @@ function App() {
   };
 
   useEffect(() => {
-    //APIHelperCategory.createCategory("Случайное");
-    //APIHelperCategory.createCategory("Советские фильмы");
-    //insertData();
     assistant.current = initializeAssistant(() => getStateForAssistant());
     assistant.current.on("start", (event) => {
       console.log(`assistant.on(start)`, event);
     });
 
     assistant.current.on("data", (event /*: any*/) => {
+      if (event.type == "smart_app_data") {
+        console.log("userId", event.user_id);
+        setUserId(event.user_id);
+      }
       console.log(`assistant.on(data)`, event);
       const { action } = event;
       dispatchAssistantAction(action);
@@ -150,7 +153,7 @@ function App() {
     } else {
       console.log("Null");
     }
-  }, []);
+  }, [workouts]);
   const [groupId, setGroupId] = useState(2);
   const [description, setDescription] = useState("описание");
   const [name, setName] = useState("Быстрая тренировка");
@@ -165,6 +168,8 @@ function App() {
             setGroupId={setGroupId}
             setDescription={setDescription}
             setName={setName}
+            workouts={workouts}
+            setWorkouts={setWorkouts}
           />
         </Route>
         <Route path="/fastworkout">
@@ -177,7 +182,7 @@ function App() {
           />
         </Route>
         <Route path="/calendar" exact>
-          <SportCalendar />
+          <SportCalendar userId={userId} />
         </Route>
         <Route path="/">
           <Main setGroupId={setGroupId} />

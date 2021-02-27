@@ -74,7 +74,8 @@ const Workout = ({
   };
   useEffect(() => {
     fetchCategoriesAndSetCategories();
-  });
+    console.log("Workout useeffect");
+  }, []);
   const [iter, setIter] = useState(0);
   const [timeCount, tsetTimeCount] = useState();
   return !workOutStarted ? (
@@ -195,9 +196,25 @@ const Workout = ({
                   </div>
                 ) : (
                   <div>
-                    <TextBoxBigTitle>
-                      {workoutExercises[iter].name}
-                    </TextBoxBigTitle>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <TextBoxBigTitle>
+                        {workoutExercises[iter].name}
+                      </TextBoxBigTitle>
+                      <div style={{ marginTop: "0.5rem" }}>
+                        <Timer
+                          setIter={setIter}
+                          timeCount={{ timeCount: workoutExercises[iter].time }}
+                          iter={iter}
+                        />
+                      </div>
+                    </div>
+
                     <div
                       style={{
                         display: "flex",
@@ -218,14 +235,7 @@ const Workout = ({
                           src="https://chslovo.com/wp-content/uploads/2019/03/21-1.jpg"
                         /> */}
 
-                      <div
-                        style={{ flexDirection: "column", margin: "0.75rem" }}
-                      >
-                        <Timer
-                          setIter={setIter}
-                          timeCount={workoutExercises[iter].time}
-                          iter={iter}
-                        />
+                      <div style={{ flexDirection: "column" }}>
                         <CardParagraph1 lines={5}>
                           {workoutExercises[iter].discription}
                         </CardParagraph1>

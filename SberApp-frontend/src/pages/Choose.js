@@ -18,8 +18,13 @@ import {
 import { Headline2 } from "@sberdevices/ui/components/Typography";
 import "./Workout.css";
 
-const Choose = ({ setGroupId, setDescription, setName }) => {
-  const [workouts, setWorkouts] = useState([]);
+const Choose = ({
+  setGroupId,
+  setDescription,
+  setName,
+  setWorkouts,
+  workouts,
+}) => {
   const fetchCategoriesAndSetCategories = async () => {
     const workouts = await ApiQueries.getAllGroupsExercises();
     setWorkouts(workouts);

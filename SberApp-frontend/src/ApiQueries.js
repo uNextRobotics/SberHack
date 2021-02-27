@@ -47,7 +47,14 @@ async function getCategoryById(CategoryId) {
   });
   return category;
 }
-
+async function getProverkaUsersByUserId(UserId) {
+  const category = await axios.get(`${API_URL}ProverkaUsersByUserId`, {
+    params: {
+      UserId: UserId,
+    },
+  });
+  return category;
+}
 async function getAllGroupsExercises() {
   const groups = await axios.get(`${API_URL}AllGroupsExercises`);
   return groups;
@@ -88,4 +95,13 @@ async function updateQuestion(id, payload) {
   const { data: newQuestion } = await axios.put(`${API_URL}${id}`, payload);
   return newQuestion;
 }
-export default { API_URL, getAllGroupsExercises, getExircicesfromGroup };
+export default {
+  API_URL,
+  getAllGroupsExercises,
+  getExircicesfromGroup,
+  getUsersBySberId,
+  getProgressByUser,
+  createProgressAchieve,
+  createUser,
+  getProverkaUsersByUserId,
+};

@@ -40,7 +40,7 @@ const customStyles = {
 //     }
 // `;
 // Make sure to bind modal to your appElement (http://reactcommunity.org/react-modal/accessibility/)
-export const Timer = ({ setIter, category, chooseCategory, iter }) => {
+export const Timer = ({ setIter, timeCount, iter }) => {
   const history = useHistory();
 
   var subtitle;
@@ -52,15 +52,29 @@ export const Timer = ({ setIter, category, chooseCategory, iter }) => {
   function afterOpenModal() {
     // references are now sync'd and can be accessed.
     subtitle.style.color = "";
-    setCounterRest(3);
+    setCounterRest(30);
   }
 
   function closeModal() {
     setIsOpen(false);
   }
-  const [counter, setCounter] = React.useState(15);
-  const [counterRest, setCounterRest] = React.useState(6);
+  const [counter, setCounter] = React.useState(timeCount.timeCount);
+  const [counterRest, setCounterRest] = React.useState(30);
   React.useEffect(() => {
+    console.log("Верхний юз");
+
+    setCounter(timeCount.timeCount);
+  }, [timeCount]);
+  React.useEffect(() => {
+    console.log(timeCount);
+    // if(changed){
+
+    // }
+    // else{
+    //   setChanged()
+    // }
+    console.log("Timer useeffect");
+
     let timer;
     if (counter > 0) {
       timer = setTimeout(() => setCounter((c) => c - 1), 1000);
@@ -80,6 +94,7 @@ export const Timer = ({ setIter, category, chooseCategory, iter }) => {
     } else if (counter === 0) {
       setIsOpen(false);
       setIter(iter + 1);
+      setCounter(timeCount);
     }
     return () => {
       if (timer) {
@@ -119,7 +134,7 @@ export const Timer = ({ setIter, category, chooseCategory, iter }) => {
             <Button
               onClick={() => {
                 setIsOpen(false);
-                setCounterRest(4);
+                setCounterRest(30);
                 history.push("/");
               }}
             >
@@ -130,6 +145,7 @@ export const Timer = ({ setIter, category, chooseCategory, iter }) => {
               onClick={() => {
                 setIsOpen(false);
                 setIter(iter + 1);
+                setCounter(timeCount);
               }}
             >
               Продолжить
