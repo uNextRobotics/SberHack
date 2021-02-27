@@ -103,7 +103,7 @@ function App() {
           ChangePage("choose_training");
           break;
         default:
-          throw new Error();
+        //throw new Error();
       }
     }
   };

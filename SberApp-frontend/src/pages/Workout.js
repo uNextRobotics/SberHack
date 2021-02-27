@@ -28,6 +28,7 @@ import {
   TextBoxSubTitle,
   CardParagraph1,
   CardHeadline1,
+  Spinner,
 } from "@sberdevices/ui";
 import "./Workout.css";
 import { Timer } from "../components/Timer";
@@ -52,11 +53,13 @@ const Workout = ({ groupId }) => {
   const [workoutExercises, setWorkoutExercises] = useState([]);
   const fetchCategoriesAndSetCategories = async () => {
     const workoutsEx = await ApiQueries.getExircicesfromGroup(groupId);
-    setWorkoutExercises(workoutsEx);
+    setWorkoutExercises(workoutsEx.data);
   };
   useEffect(() => {
     fetchCategoriesAndSetCategories();
   });
+  const [iter, setIter] = useState(0);
+  const [timeCount, tsetTimeCount] = useState();
   return !workOutStarted ? (
     <>
       <div
@@ -128,44 +131,72 @@ const Workout = ({ groupId }) => {
       <Card style={{ marginBottom: "3rem" }}>
         <CardBody>
           <CardContent>
-            {workoutExercises.data ? <div></div> : <div></div>}
-            <TextBoxBigTitle>Отжимания</TextBoxBigTitle>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-around",
-                flexDirection: "row",
-              }}
-            >
-              <img
-                style={{
-                  width: "auto",
-                  heigh: "auto",
-                  maxWidth: "500px",
-                  borderRadius: "25px",
-                }}
-                src="https://chslovo.com/wp-content/uploads/2019/03/21-1.jpg"
-              />
+            {workoutExercises ? (
+              <div>
+                {iter == workoutExercises.length ? (
+                  <div>
+                    <TextBoxBigTitle>
+                      Тренировка закончена, молодец!
+                    </TextBoxBigTitle>
+                  </div>
+                ) : (
+                  <div>
+                    <TextBoxBigTitle>
+                      {workoutExercises[iter].name}
+                    </TextBoxBigTitle>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-around",
+                        flexDirection: "row",
+                      }}
+                    >
+                      <img
+                        style={{
+                          width: "auto",
+                          heigh: "auto",
+                          maxWidth: "500px",
+                          borderRadius: "25px",
+                        }}
+                        src="https://chslovo.com/wp-content/uploads/2019/03/21-1.jpg"
+                      />
 
-              <div style={{ flexDirection: "column", margin: "0.75rem" }}>
-                <Timer />
-                <CardParagraph1 lines={4}>{longText}</CardParagraph1>
-                <Button
-                  view="primary"
-                  size="s"
-                  scaleOnInteraction={false}
-                  outlined={false}
-                  fullWidth
-                  style={{ marginTop: "1em" }}
-                  tabIndex={-1}
-                  onClick={() => {
-                    console.log(workoutExercises.data);
-                  }}
-                >
-                  Следующее
-                </Button>
+                      <div
+                        style={{ flexDirection: "column", margin: "0.75rem" }}
+                      >
+                        <Timer
+                          setIter={setIter}
+                          timeCount={workoutExercises[iter].time}
+                          iter={iter}
+                        />
+                        <CardParagraph1 lines={4}>
+                          {workoutExercises[iter].discription}
+                        </CardParagraph1>
+                        <Button
+                          view="primary"
+                          size="s"
+                          scaleOnInteraction={false}
+                          outlined={false}
+                          fullWidth
+                          style={{ marginTop: "1em" }}
+                          tabIndex={-1}
+                          onClick={() => {
+                            console.log(workoutExercises);
+                            setIter(iter + 1);
+                          }}
+                        >
+                          Следующее
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
-            </div>
+            ) : (
+              <div>
+                <Spinner />
+              </div>
+            )}
           </CardContent>
         </CardBody>
       </Card>

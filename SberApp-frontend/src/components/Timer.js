@@ -6,7 +6,7 @@ import { Button } from "@sberdevices/ui";
 import { IconRefresh, IconHouse } from "@sberdevices/plasma-icons";
 import "./Modal.css";
 import { Headline2 } from "@sberdevices/ui/components/Typography";
-
+import { BrowserRouter as Router, useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 const format = (time) => {
   // Convert seconds into minutes and take the whole part
@@ -40,7 +40,9 @@ const customStyles = {
 //     }
 // `;
 // Make sure to bind modal to your appElement (http://reactcommunity.org/react-modal/accessibility/)
-export const Timer = ({ setIsGame, category, chooseCategory }) => {
+export const Timer = ({ setIter, category, chooseCategory, iter }) => {
+  const history = useHistory();
+
   var subtitle;
   const [modalIsOpen, setIsOpen] = React.useState(false);
   function openModal() {
@@ -50,12 +52,14 @@ export const Timer = ({ setIsGame, category, chooseCategory }) => {
   function afterOpenModal() {
     // references are now sync'd and can be accessed.
     subtitle.style.color = "";
+    setCounterRest(3);
   }
 
   function closeModal() {
     setIsOpen(false);
   }
-  const [counter, setCounter] = React.useState(345);
+  const [counter, setCounter] = React.useState(4);
+  const [counterRest, setCounterRest] = React.useState(3);
   React.useEffect(() => {
     let timer;
     if (counter > 0) {
@@ -69,6 +73,20 @@ export const Timer = ({ setIsGame, category, chooseCategory }) => {
       }
     };
   }, [counter]);
+  React.useEffect(() => {
+    let timer;
+    if (counterRest > 0) {
+      timer = setTimeout(() => setCounterRest((c) => c - 1), 1000);
+    } else if (counter === 0) {
+      setIsOpen(false);
+      setIter(iter + 1);
+    }
+    return () => {
+      if (timer) {
+        clearTimeout(timer);
+      }
+    };
+  }, [counterRest]);
   return (
     <div>
       {counter !== 0 && <Headline2>Время: {format(counter)}</Headline2>}
@@ -83,10 +101,14 @@ export const Timer = ({ setIsGame, category, chooseCategory }) => {
             ref={(_subtitle) => (subtitle = _subtitle)}
             style={{ textAlign: "center" }}
           >
-            Время вышло
+            Отдых
           </h2>
-          <div style={{ textAlign: "center" }}>Вы продержались: Х секунд</div>
-          <br />
+          <div style={{ textAlign: "center" }}>
+            <Headline2>Следующее упражнение через</Headline2>
+            <br />
+            {counterRest !== 0 && <Headline2>{format(counterRest)}</Headline2>}
+          </div>
+
           <div
             style={{
               display: "flex",
@@ -95,20 +117,23 @@ export const Timer = ({ setIsGame, category, chooseCategory }) => {
             }}
           >
             <Button
-              onClick={async () => {
+              onClick={() => {
                 setIsOpen(false);
-
-                await chooseCategory(category);
-                setCounter(4);
+                setCounterRest(4);
+                history.push("/");
               }}
             >
-              <IconRefresh />
+              <IconHouse />
             </Button>
-            <Link to="/">
-              <Button>
-                <IconHouse />
-              </Button>
-            </Link>
+
+            <Button
+              onClick={() => {
+                setIsOpen(false);
+                setIter(iter + 1);
+              }}
+            >
+              Продолжить
+            </Button>
           </div>
         </Modal>
       </div>
