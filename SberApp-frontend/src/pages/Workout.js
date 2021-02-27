@@ -69,21 +69,20 @@ const Workout = ({ groupId }) => {
         }}
       >
         <div style={{ flexDirection: "column" }}>
-          <Headline2>Быстрая тренировка</Headline2>
-          <MarkedList>
-            <MarkedItem text="Выпить стакан воды" style={{ color: primary }}>
-              <IconDone size="xs" color={accent} />
-            </MarkedItem>
-            <MarkedItem text="Сделать растяжку" style={{ color: primary }}>
-              <IconDone size="xs" color={accent} />
-            </MarkedItem>
-            <MarkedItem text="Сделать 20 отжиманий" style={{ color: tertiary }}>
-              <IconLock size="xs" color={tertiary} />
-            </MarkedItem>
-            <MarkedItem text="Упражнения на спину" style={{ color: tertiary }}>
-              <IconLock size="xs" color={tertiary} />
-            </MarkedItem>
-          </MarkedList>
+          <Headline2>Название тренировки</Headline2>
+
+          {workoutExercises ? (
+            <MarkedList>
+              {workoutExercises.map(({ _id, name }, i) => (
+                <MarkedItem text={name} style={{ color: primary }}>
+                  <IconDone size="xs" color={accent} />
+                </MarkedItem>
+              ))}
+            </MarkedList>
+          ) : (
+            <Spinner />
+          )}
+
           <br />
           <Button
             onClick={() => {
