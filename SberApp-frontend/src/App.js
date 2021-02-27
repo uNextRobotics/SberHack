@@ -57,6 +57,8 @@ function App() {
   var state = {
     notes: [],
   };
+  const [workoutExercises, setWorkoutExercises] = useState([]);
+
   const getStateForAssistant = () => {
     console.log("getStateForAssistant: this.state:", state);
     const state_ = {
@@ -87,7 +89,20 @@ function App() {
         break;
     }
   };
+
   const history = useHistory();
+  const ChooseTrain = async (train_name) => {
+    if (workoutExercises != undefined) {
+      workoutExercises.map(({ _id, name }, i) => {
+        if (train_name == name.split(" ")[0]) {
+          var tain_id = _id;
+          history.push("/fastworkout");
+        }
+      });
+    } else {
+      alert("Undef");
+    }
+  };
 
   const dispatchAssistantAction = async (action) => {
     console.log("dispatchAssistantAction", action);
@@ -102,8 +117,12 @@ function App() {
         case "to_choose_training":
           ChangePage("choose_training");
           break;
+        case "choose_train":
+          console.log("Action: ", action);
+          ChooseTrain(action.data);
+
         default:
-        //throw new Error();
+          break;
       }
     }
   };
@@ -144,7 +163,11 @@ function App() {
           <Choose setGroupId={setGroupId} />
         </Route>
         <Route path="/fastworkout">
-          <Workout groupId={groupId} />
+          <Workout
+            groupId={groupId}
+            workoutExercises={workoutExercises}
+            setWorkoutExercises={setWorkoutExercises}
+          />
         </Route>
         <Route path="/calendar" exact>
           <SportCalendar />

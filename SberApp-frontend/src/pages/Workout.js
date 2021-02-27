@@ -47,10 +47,9 @@ const renderTime = ({ remainingTime }) => {
 };
 var longText =
   "Канадский актёр, кинопродюсер, и музыкант. Наиболее известен своими ролями в киносериях «Матрица» и «Джон Уик», а также в фильмах «На гребне волны», «Мой личный штат Айдахо», «Дракула», «Скорость», «Джонни-мнемоник», «Адвокат дьявола», «Константин: Повелитель тьмы» и «Короли улиц».";
-const Workout = ({ groupId }) => {
+const Workout = ({ groupId, workoutExercises, setWorkoutExercises }) => {
   const history = useHistory();
   const [workOutStarted, setWorkOutStartet] = useState(false);
-  const [workoutExercises, setWorkoutExercises] = useState([]);
   const fetchCategoriesAndSetCategories = async () => {
     const workoutsEx = await ApiQueries.getExircicesfromGroup(groupId);
     setWorkoutExercises(workoutsEx.data);
