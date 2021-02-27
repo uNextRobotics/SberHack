@@ -53,9 +53,9 @@ async function getAllGroupsExercises() {
   return groups;
 }
 async function getExircicesfromGroup(GroupId) {
-  const exircises = await axios.get(`${API_URL}GroupExir`, {
+  const exircises = await axios.get(`${API_URL}ExircicesfromGroup`, {
     params: {
-      GroupId: GroupId,
+      group_id: GroupId,
     },
   });
   return exircises;
@@ -88,4 +88,4 @@ async function updateQuestion(id, payload) {
   const { data: newQuestion } = await axios.put(`${API_URL}${id}`, payload);
   return newQuestion;
 }
-export default { API_URL, getAllGroupsExercises };
+export default { API_URL, getAllGroupsExercises, getExircicesfromGroup };

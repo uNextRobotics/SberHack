@@ -24,7 +24,7 @@ import {
   MarkedItem,
 } from "@sberdevices/ui";
 import { tertiary, primary, accent } from "@sberdevices/plasma-tokens";
-const Main = () => {
+const Main = ({ setGroupId }) => {
   return (
     <div
       style={{
@@ -46,6 +46,9 @@ const Main = () => {
             }}
           >
             <Cell
+              onClick={() => {
+                setGroupId(2);
+              }}
               left={
                 <CellIcon>
                   <IconAccessibility />

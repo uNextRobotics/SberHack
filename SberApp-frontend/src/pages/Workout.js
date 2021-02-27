@@ -1,14 +1,17 @@
 import { Button, Container } from "@sberdevices/ui";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { withRouter, Link } from "react-router-dom";
+import ApiQueries from "../ApiQueries";
+
 import { tertiary, primary, accent } from "@sberdevices/plasma-tokens";
 import {
-  Headline2,
   body1,
   Display3,
   Headline3,
   Body1,
 } from "@sberdevices/ui/components/Typography";
+import { Headline2 } from "@sberdevices/ui/components/Typography";
+
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import { createBrowserHistory } from "history";
 import { BrowserRouter as Router, useHistory } from "react-router-dom";
@@ -27,7 +30,7 @@ import {
   CardHeadline1,
 } from "@sberdevices/ui";
 import "./Workout.css";
-
+import { Timer } from "../components/Timer";
 const renderTime = ({ remainingTime }) => {
   if (remainingTime === 0) {
     return <div className="timer">Стоп</div>;
@@ -43,9 +46,17 @@ const renderTime = ({ remainingTime }) => {
 };
 var longText =
   "Канадский актёр, кинопродюсер, и музыкант. Наиболее известен своими ролями в киносериях «Матрица» и «Джон Уик», а также в фильмах «На гребне волны», «Мой личный штат Айдахо», «Дракула», «Скорость», «Джонни-мнемоник», «Адвокат дьявола», «Константин: Повелитель тьмы» и «Короли улиц».";
-const Workout = () => {
+const Workout = ({ groupId }) => {
   const history = useHistory();
   const [workOutStarted, setWorkOutStartet] = useState(false);
+  const [workoutExercises, setWorkoutExercises] = useState([]);
+  const fetchCategoriesAndSetCategories = async () => {
+    const workoutsEx = await ApiQueries.getExircicesfromGroup(groupId);
+    setWorkoutExercises(workoutsEx);
+  };
+  useEffect(() => {
+    fetchCategoriesAndSetCategories();
+  });
   return !workOutStarted ? (
     <>
       <div
@@ -99,7 +110,7 @@ const Workout = () => {
     </>
   ) : (
     <div>
-      <Button
+      {/* <Button
         onClick={() => {
           setWorkOutStartet(false);
         }}
@@ -112,32 +123,49 @@ const Workout = () => {
         }}
       >
         На главную
-      </Button>
-      <Card>
+      </Button> */}
+
+      <Card style={{ marginBottom: "3rem" }}>
         <CardBody>
           <CardContent>
-            <TextBoxBigTitle>Таймер</TextBoxBigTitle>
+            {workoutExercises.data ? <div></div> : <div></div>}
+            <TextBoxBigTitle>Отжимания</TextBoxBigTitle>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-around",
+                flexDirection: "row",
+              }}
+            >
+              <img
+                style={{
+                  width: "auto",
+                  heigh: "auto",
+                  maxWidth: "500px",
+                  borderRadius: "25px",
+                }}
+                src="https://chslovo.com/wp-content/uploads/2019/03/21-1.jpg"
+              />
 
-            <div style={{ justifyContent: "space-around" }}>
-              <CountdownCircleTimer
-                isPlaying
-                duration={15}
-                colors={[["#004777", 0.33], ["#F7B801", 0.33], ["#A30000"]]}
-                onComplete={() => [true, 1000]}
-              >
-                {renderTime}
-              </CountdownCircleTimer>
+              <div style={{ flexDirection: "column", margin: "0.75rem" }}>
+                <Timer />
+                <CardParagraph1 lines={4}>{longText}</CardParagraph1>
+                <Button
+                  view="primary"
+                  size="s"
+                  scaleOnInteraction={false}
+                  outlined={false}
+                  fullWidth
+                  style={{ marginTop: "1em" }}
+                  tabIndex={-1}
+                  onClick={() => {
+                    console.log(workoutExercises.data);
+                  }}
+                >
+                  Следующее
+                </Button>
+              </div>
             </div>
-            <Button
-              text="Label"
-              view="primary"
-              size="s"
-              scaleOnInteraction={false}
-              outlined={false}
-              fullWidth
-              style={{ marginTop: "1em" }}
-              tabIndex={-1}
-            />
           </CardContent>
         </CardBody>
       </Card>

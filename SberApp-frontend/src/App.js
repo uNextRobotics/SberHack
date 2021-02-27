@@ -19,6 +19,7 @@ import {
   createAssistant,
   AssistantAppState,
 } from "@sberdevices/assistant-client";
+import { set } from "date-fns";
 
 const AppStyled = styled.div`
   padding: 30px;
@@ -107,8 +108,6 @@ function App() {
     }
   };
 
-  const [workouts, setWorkouts] = useState([]);
-
   useEffect(() => {
     //APIHelperCategory.createCategory("Случайное");
     //APIHelperCategory.createCategory("Советские фильмы");
@@ -127,13 +126,6 @@ function App() {
     //assistant.sendData({ action: { action_id: 'done', parameters: { title: 'купить хлеб' } } });
     console.log("UseEffect");
 
-    const fetchCategoriesAndSetCategories = async () => {
-      const workouts = await ApiQueries.getAllGroupsExercises();
-      setWorkouts(workouts);
-      //console.log(workouts);
-    };
-
-    fetchCategoriesAndSetCategories();
     if (assistant.current != null) {
       console.log("Non null, send data");
       //assistant.sendData({ action: { action_id: 'check_answer'}});
@@ -141,7 +133,7 @@ function App() {
       console.log("Null");
     }
   }, []);
-
+  const [groupId, setGroupId] = useState();
   return (
     <AppStyled>
       <TypoScale />
@@ -149,16 +141,16 @@ function App() {
       <Theme />
       <Switch>
         <Route path="/choose">
-          <Choose />
+          <Choose setGroupId={setGroupId} />
         </Route>
         <Route path="/fastworkout">
-          <Workout />
+          <Workout groupId={groupId} />
         </Route>
         <Route path="/calendar" exact>
           <SportCalendar />
         </Route>
         <Route path="/">
-          <Main />
+          <Main setGroupId={setGroupId} />
         </Route>
       </Switch>
     </AppStyled>

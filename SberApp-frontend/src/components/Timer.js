@@ -5,6 +5,8 @@ import { text, background, gradient } from "@sberdevices/plasma-tokens";
 import { Button } from "@sberdevices/ui";
 import { IconRefresh, IconHouse } from "@sberdevices/plasma-icons";
 import "./Modal.css";
+import { Headline2 } from "@sberdevices/ui/components/Typography";
+
 import { Link } from "react-router-dom";
 const format = (time) => {
   // Convert seconds into minutes and take the whole part
@@ -53,14 +55,13 @@ export const Timer = ({ setIsGame, category, chooseCategory }) => {
   function closeModal() {
     setIsOpen(false);
   }
-  const [counter, setCounter] = React.useState(14);
+  const [counter, setCounter] = React.useState(345);
   React.useEffect(() => {
     let timer;
     if (counter > 0) {
       timer = setTimeout(() => setCounter((c) => c - 1), 1000);
     } else if (counter === 0) {
       setIsOpen(true);
-      setIsGame(false);
     }
     return () => {
       if (timer) {
@@ -70,7 +71,7 @@ export const Timer = ({ setIsGame, category, chooseCategory }) => {
   }, [counter]);
   return (
     <div>
-      {counter !== 0 && <span>Время: {format(counter)}</span>}
+      {counter !== 0 && <Headline2>Время: {format(counter)}</Headline2>}
       <div>
         <Modal
           isOpen={modalIsOpen}

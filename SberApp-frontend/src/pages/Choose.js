@@ -4,8 +4,6 @@ import { withRouter, Link } from "react-router-dom";
 import { Row } from "@sberdevices/ui/components/Grid/Row";
 import { Col } from "@sberdevices/ui/components/Grid/Col";
 import ApiQueries from "../ApiQueries";
-import axios from "axios";
-
 import {
   Spinner,
   Card,
@@ -21,22 +19,15 @@ import { Headline2 } from "@sberdevices/ui/components/Typography";
 import "./Workout.css";
 
 const Choose = () => {
-  const [workoutTypes, setWorkoutTypes] = useState([]);
-  const getData = () => {
-    //const workouts = ApiQueries.getAllGroupsExercises();
-    // setWorkoutTypes(workouts.data);
-    axios.get(`${ApiQueries.API_URL}AllGroupsExercises`).then((res) => {
-      setWorkoutTypes(res.data);
-      console.log(res.data);
-    });
+  const [workouts, setWorkouts] = useState([]);
+  const fetchCategoriesAndSetCategories = async () => {
+    const workouts = await ApiQueries.getAllGroupsExercises();
+    setWorkouts(workouts);
   };
   useEffect(() => {
-    //getData();
-    axios.get(`${ApiQueries.API_URL}AllGroupsExercises`).then((res) => {
-      setWorkoutTypes(res.data);
-      console.log(res.data);
-    });
-  }, []);
+    fetchCategoriesAndSetCategories();
+  });
+
   return (
     <Container>
       <div style={{ display: "flex", justifyContent: "space-around" }}>
@@ -44,8 +35,8 @@ const Choose = () => {
       </div>
       <br />
       <Row>
-        {true ? (
-          workoutTypes.map(({ _id, name }, i) => (
+        {workouts.data ? (
+          workouts.data.map(({ _id, name }, i) => (
             <>
               <Col type="calc" size={1}>
                 <Card
