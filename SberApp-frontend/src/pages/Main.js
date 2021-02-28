@@ -24,7 +24,7 @@ import {
   MarkedItem,
 } from "@sberdevices/ui";
 import { tertiary, primary, accent } from "@sberdevices/plasma-tokens";
-const Main = ({ setGroupId }) => {
+const Main = ({ setGroupId, ToChooseCateg }) => {
   return (
     <div
       style={{
@@ -70,6 +70,7 @@ const Main = ({ setGroupId }) => {
                   <IconApps />
                 </CellIcon>
               }
+              onClick={() =>ToChooseCateg()}
               content={
                 <TextBox>
                   <TextBoxTitle>Меню тренировок</TextBoxTitle>

@@ -4,7 +4,7 @@ import { Calendar } from "react-nice-dates";
 import "react-nice-dates/build/style.css";
 import { ru } from "date-fns/locale";
 import { isSameDay } from "date-fns";
-import { Button, Container } from "@sberdevices/ui";
+import { Button, Container, Spinner } from "@sberdevices/ui";
 import ApiQueries from "../ApiQueries";
 
 import "./SportCalendar.css";
@@ -16,7 +16,7 @@ const SportCalendar = ({ userId }) => {
       selectedDates.some((selectedDate) => isSameDay(selectedDate, date)),
   };
   const handleDayClick = (date) => {
-    var date = new Date();
+    //var date = new Date();
 
     setSelectedDates([...selectedDates, date]);
     //console.log(selectedDates);
@@ -43,16 +43,16 @@ const SportCalendar = ({ userId }) => {
       const progress = async (uid) => {
         var res = await ApiQueries.getProgressByUser(uid);
 
-        res.data.push({
-          date: "Thu Feb 25 2021 04:26:51 GMT+0300 (Москва, стандартное время)",
-        });
+        // res.data.push({
+        //   date: "Thu Feb 25 2021 04:26:51 GMT+0300 (Москва, стандартное время)",
+        // });
 
-        res.data.push({
-          date: "Thu Feb 27 2021 04:26:51 GMT+0300 (Москва, стандартное время)",
-        });
-        res.data.push({
-          date: "Thu Feb 26 2021 04:26:51 GMT+0300 (Москва, стандартное время)",
-        });
+        // res.data.push({
+        //   date: "Thu Feb 27 2021 04:26:51 GMT+0300 (Москва, стандартное время)",
+        // });
+        // res.data.push({
+        //   date: "Thu Feb 26 2021 04:26:51 GMT+0300 (Москва, стандартное время)",
+        // });
         console.log(res.data);
         setRecievedData(res.data);
 
@@ -89,7 +89,7 @@ const SportCalendar = ({ userId }) => {
             date={date}
           />
         ) : (
-          <div>ok</div>
+          <Spinner />
         )}
       </Container>
     </div>

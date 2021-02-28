@@ -79,6 +79,8 @@ function App() {
 
   const [workoutExercises, setWorkoutExercises] = useState([]);
   const [userId, setUserId] = useState([]);
+  const [workOutStarted, setWorkOutStartet] = useState(false);
+  const [iterChanged, setIterChanged] = useState(-1);
   const getStateForAssistant = () => {
     console.log("getStateForAssistant: this.state:", state);
     const state_ = {
@@ -112,16 +114,37 @@ function App() {
 
   const history = useHistory();
   const ChooseTrain = async (train_name) => {
-    train_name = train_name.charAt(0).toUpperCase() + train_name.slice(1);
-    if (workouts != undefined) {
-      workouts.map(({ _id, name }, i) => {
-        if (train_name == name) {
-          var tain_id = _id;
-
+    train_name =
+      train_name.charAt(0).toUpperCase() + train_name.slice(1).trim();
+    console.log("WK", workouts.data);
+    if (workouts.data != undefined) {
+      workouts.data.map(({ _id, name, discription }, i) => {
+        console.log("name", name);
+        console.log("train_name", train_name);
+        if (train_name == name.trim()) {
+          //setWorkOutStartet(false)
+          console.log("i", i);
+          console.log("name", name);
+          setGroupId(i + 1);
+          setName(name);
+          setDescription(discription);
           history.push("/fastworkout");
         }
       });
     }
+  };
+
+  const startTraining = async () => {
+    setWorkOutStartet(true);
+    //history.push("/fastworkout");
+  };
+  const changeExir = async (type) => {
+    switch (type) {
+      case "next":
+        setIterChanged(1);
+    }
+
+    setIterChanged(-1);
   };
 
   const dispatchAssistantAction = async (action) => {
@@ -142,8 +165,17 @@ function App() {
           ChangePage("choose_training");
           break;
         case "choose_train":
-          console.log("Action: ", action);
           ChooseTrain(action.data);
+          break;
+        case "start_train":
+          startTraining();
+          break;
+        case "next_exircise":
+          changeExir("next");
+          break;
+        case "to_main":
+          history.push("/");
+          break;
 
         default:
           break;
@@ -152,20 +184,26 @@ function App() {
   };
 
   useEffect(() => {
-    assistant.current = initializeAssistant(() => getStateForAssistant());
-    assistant.current.on("start", (event) => {
-      console.log(`assistant.on(start)`, event);
-    });
+    if (assistant.current == undefined) {
+      assistant.current = initializeAssistant(() => getStateForAssistant());
+      assistant.current.on("start", (event) => {
+        console.log(`assistant.on(start)`, event);
+      });
+    }
 
-    assistant.current.on("data", (event /*: any*/) => {
-      if (event.type == "smart_app_data") {
-        console.log("userId", event.user_id);
-        setUserId(event.user_id);
-      }
-      console.log(`assistant.on(data)`, event);
-      const { action } = event;
-      dispatchAssistantAction(action);
-    });
+    assistant.current.on(
+      "data",
+      (event /*: any*/) => {
+        if (event.type == "smart_app_data") {
+          console.log("userId", event.user_id);
+          setUserId(event.user_id);
+        }
+        console.log(`assistant.on(data)`, event);
+        const { action } = event;
+        dispatchAssistantAction(action);
+      },
+      []
+    );
 
     //assistant.sendData({ action: { action_id: 'done', parameters: { title: 'купить хлеб' } } });
 
@@ -177,8 +215,16 @@ function App() {
     }
   }, [workouts]);
   const [groupId, setGroupId] = useState(2);
-  const [description, setDescription] = useState("описание");
+  const [description, setDescription] = useState(
+    "Облегченный вид утренней тренирровки позволит вам размять тело без особых силовых усилий"
+  );
   const [name, setName] = useState("Быстрая тренировка");
+
+  const SendDataToAssistant = async (action) => {
+    assistant.current.sendData({
+      action: { action_id: action, parameters: { title: "купить хлеб" } },
+    });
+  };
 
   return (
     <AppStyled>
@@ -205,6 +251,7 @@ function App() {
               setName={setName}
               workouts={workouts}
               setWorkouts={setWorkouts}
+              SendDataToAssistant={SendDataToAssistant}
             />
           </Route>
           <Route path="/fastworkout">
@@ -215,13 +262,16 @@ function App() {
               setWorkoutExercises={setWorkoutExercises}
               name={name}
               userId={userId}
+              workOutStarted={workOutStarted}
+              setWorkOutStartet={setWorkOutStartet}
+              iterChanged={iterChanged}
             />
           </Route>
           <Route path="/calendar" exact>
             <SportCalendar userId={userId} />
           </Route>
           <Route path="/">
-            <Main setGroupId={setGroupId} />
+            <Main setGroupId={setGroupId} ToChooseCateg={SendDataToAssistant} />
           </Route>
         </Switch>
       ) : (

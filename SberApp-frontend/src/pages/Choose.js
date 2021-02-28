@@ -24,6 +24,7 @@ const Choose = ({
   setName,
   setWorkouts,
   workouts,
+  SendDataToAssistant
 }) => {
   const fetchCategoriesAndSetCategories = async () => {
     const workouts = await ApiQueries.getAllGroupsExercises();
@@ -36,7 +37,7 @@ const Choose = ({
   return (
     <Container>
       <div style={{ display: "flex", justifyContent: "space-around" }}>
-        <Headline2>Выберите тренировку</Headline2>
+        <Headline2>Выберите режим тренировки</Headline2>
       </div>
       <br />
       <Row>
@@ -77,6 +78,7 @@ const Choose = ({
                           tabIndex={-1}
                           onClick={() => {
                             console.log(workouts.data);
+                            //SendDataToAssistant('chooseCategory')
                             setGroupId(i + 1);
                             setDescription(discription);
                             setName(name);

@@ -57,8 +57,7 @@ var options = {
   day: "numeric",
   timezone: "UTC",
 };
-var longText =
-  "Канадский актёр, кинопродюсер, и музыкант. Наиболее известен своими ролями в киносериях «Матрица» и «Джон Уик», а также в фильмах «На гребне волны», «Мой личный штат Айдахо», «Дракула», «Скорость», «Джонни-мнемоник», «Адвокат дьявола», «Константин: Повелитель тьмы» и «Короли улиц».";
+
 const Workout = ({
   groupId,
   workoutExercises,
@@ -66,9 +65,14 @@ const Workout = ({
   description,
   name,
   userId,
+  workOutStarted,
+  setWorkOutStartet,
+
+  iterChanged,
 }) => {
   const history = useHistory();
-  const [workOutStarted, setWorkOutStartet] = useState(false);
+  const [iter, setIter] = useState(0);
+
   const fetchCategoriesAndSetCategories = async () => {
     const workoutsEx = await ApiQueries.getExircicesfromGroup(groupId);
     setWorkoutExercises(workoutsEx.data);
@@ -77,7 +81,13 @@ const Workout = ({
     fetchCategoriesAndSetCategories();
     console.log("Workout useeffect");
   }, []);
-  const [iter, setIter] = useState(0);
+  useEffect(() => {
+    if (iterChanged == 1) {
+      setIter(iter + 1);
+    } else if (iterChanged == 0) {
+      setIter(iter - 1);
+    }
+  }, [iterChanged]);
   const [timeCount, tsetTimeCount] = useState();
   return !workOutStarted ? (
     <>
@@ -103,13 +113,6 @@ const Workout = ({
           )}
 
           <br />
-          <Button
-            onClick={() => {
-              setWorkOutStartet(true);
-            }}
-          >
-            Начать
-          </Button>
         </div>
         <div style={{ flexDirection: "column" }}>
           <Card style={{ width: "20rem" }}>
@@ -121,8 +124,16 @@ const Workout = ({
                   <CardParagraph1 style={{ marginTop: "0.75rem" }} lines={4}>
                     {description}
                   </CardParagraph1>
-                  <TextBoxSubTitle>Подходит для женщин</TextBoxSubTitle>
+                  <TextBoxSubTitle>Подходит для всех</TextBoxSubTitle>
                 </TextBox>
+                <br />
+                <Button
+                  onClick={() => {
+                    setWorkOutStartet(true);
+                  }}
+                >
+                  Начать
+                </Button>
               </CardContent>
             </CardBody>
           </Card>
@@ -193,6 +204,7 @@ const Workout = ({
                           userId,
                           new Date()
                         );
+                        setWorkOutStartet(false);
                         history.push("/");
                       }}
                     >
@@ -275,7 +287,6 @@ const Workout = ({
                             style={{ marginTop: "1em" }}
                             tabIndex={-1}
                             onClick={() => {
-                              console.log(workoutExercises);
                               setIter(iter + 1);
                             }}
                           >
