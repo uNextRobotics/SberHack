@@ -182,7 +182,7 @@ const Workout = ({
                         <CardParagraph1>
                           {date.toLocaleString("ru", options)}{" "}
                         </CardParagraph1>
-                        <TextBoxSubTitle>Время выполнения</TextBoxSubTitle>
+                        {/* <TextBoxSubTitle>Время выполнения</TextBoxSubTitle> */}
                       </div>
 
                       {workoutExercises ? (

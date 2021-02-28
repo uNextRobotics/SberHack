@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://127.0.0.1:8000/";
+const API_URL = "https://mostrolleybus.ru:6536/";
 async function createSberId(SberId) {
   const { data: newSberId } = await axios.post(`${API_URL}SberId`, {
     SberId,

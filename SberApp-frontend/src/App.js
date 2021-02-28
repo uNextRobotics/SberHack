@@ -59,7 +59,7 @@ const initializeAssistant = (getState /*: any*/) => {
   if (process.env.NODE_ENV === "development") {
     return createSmartappDebugger({
       token:
-        "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MTQ0Mzk4MjEsImV4cCI6MTYxNDUyNjIyMSwidHlwZSI6IkJlYXJlciIsImp0aSI6IjdhOWE4ZDE5LTU2OGItNGQ3MS04Yjc5LWU3NTYxMmM5N2YyNiIsInN1YiI6IjdkMTM4N2FhY2RiYjY0ZTMwNTE3ODQ3ZGVhNzgwMDNmMTA4NjE1YmNlZGIzNTlmYjhmNWJiMWVkOGI0OTU3ZmM1MzliZTkyNzAwNDI2Mjk4IiwiYXVkIjoiVlBTIn0.EsqFDE49mQraG-zSHVcgEqjmpKxeman2krVIdI9Ojyyd1L_gOz4G2OJzeqQgCvHjDulpGeRxSqg56rbEqF41Ll9yf-f9bhCi6TLI2vYghPG2FpROLOwUx6CHztlklVk8A9J9z0tdqXYG99SFpG7QlcwaEcjzqqPfkq9bBlN3fOckl7xKiTkfVWyTY2NtY4TBwF1KxFUMJjxJM2yCFZ2P6bw0TrfnUh8p6QvGTifVMAlx-GZuOVXHx7wC8JY06iPlniF1odeYiHySO2bLAc0RES3wdyLUN1AgIkrfyNZdRuh6lW52fX7LiGwIL_4ixW7iPymq-VGTuqVPGGrUszdNPbMHmfTLiD3xB1oTMjssGDSwt4X079WGYpPPhune0Xbxja2fMghkv-yx1OE4fwvWWHHP37umQtJiEXaIAnntROhPylom-v4JBvk0iuuDXjXH3h9_8df3wNwKViopdJE-Rpp0ZM8O-BoCoH-TZoB_GhKe61duJHsv5jRqymf9-tkr_aYVWo1tuL2cj8yXXWyJttwJbfHJ3vySguWwrX90SfMBB8sPVN8zUtTTNGizizLfedhNeoapydhqJXE6lSTGwjoHQ1uRRa2kU8pO6PfHI-Ypabo133LUdZH7XV5uGkaKx1NqX5Z2B7zYjzhO7FfF0W6BVGnYZgRQ6XLpTqPwqz0        " ??
+        "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MTQ1MDY0MzksImV4cCI6MTYxNDU5MjgzOSwidHlwZSI6IkJlYXJlciIsImp0aSI6ImQ1NmIzMjUyLTYyODQtNDJkMy04MDQzLTIxZjlhNjEzMWQ2NyIsInN1YiI6IjdkMTM4N2FhY2RiYjY0ZTMwNTE3ODQ3ZGVhNzgwMDNmMTA4NjE1YmNlZGIzNTlmYjhmNWJiMWVkOGI0OTU3ZmM1MzliZTkyNzAwNDI2Mjk4IiwiYXVkIjoiVlBTIn0.O67QZgv6jRgPfrX_Cya1LGqgidb0gftwvoUiWHSinSAvJcGsC8bK7iwpWoQZQ-JYcBAtnvd7mGVX5Vteuf4y-_EaaWIBr2w-AkWjyuTxvTof9gFBpS71MVIZGCY6VPDW20Ji2Lg0bD0Rby_FRAqqPgYo_r1xeMg6rHNmSSBHJXS8fwee9VOovraThPIAaDbQua_hp_mVy3vNpdXf4Ug1SCa_vDKxSVGsqcJoFgwTMv7xVqtgzWTNOw5BRQuvs5kZd_4UiWFzfKdFbzrryLHaJiF8zgwTG_yxDGuI73366AYYEWeXnnAgdQHFYZwpmm-KGSzSWGNddlRoWwUOk9n_xYgTLQWJxO1b9i2G7MoUuVnsQGwGuwjyPX6ycz6kKUTtKGJM2jg5ssxeY2CYqw-4f0OmwaUgbqeUFnG-FYVV0yihZL8-xGS8D44yEaUnBlAMl2S5w7ZXoScVeO2tTiOQQp0XRNq4QvelLBgAZLb3Xhe_JvjPhRblVfIkPaeTMPT4Wg_YLlbUHJXT2e7TE22oaXDS0mkSXmI505VfKkFpbwd03ohmIdqH-uxsd4GMUr639OZDVAp83zTYLWX812mQKA8aE3jCFoTIRrDZkTryjaR94bdu06QVETJDdfbhW3XQleai90TWe1ePLFTG2xhR8hNkSiYay0-UY7JfMilEP3Y" ??
         "",
       initPhrase: `Запусти MorningTraining`,
       getState,
@@ -107,6 +107,9 @@ function App() {
       case "choose_training":
         history.push("/choose");
         break;
+      case "fast_training":
+        history.push("/fastworkout");
+        break;
       default:
         break;
     }
@@ -142,6 +145,8 @@ function App() {
     switch (type) {
       case "next":
         setIterChanged(1);
+      case "previous":
+        setIterChanged(0);
     }
 
     setIterChanged(-1);
@@ -170,8 +175,12 @@ function App() {
         case "start_train":
           startTraining();
           break;
+
         case "next_exircise":
           changeExir("next");
+          break;
+        case "previous_exircise":
+          changeExir("previous");
           break;
         case "to_main":
           history.push("/");
@@ -242,43 +251,43 @@ function App() {
             return;
         }
       })()}
-      {assistant.current ? (
-        <Switch>
-          <Route path="/choose">
-            <Choose
-              setGroupId={setGroupId}
-              setDescription={setDescription}
-              setName={setName}
-              workouts={workouts}
-              setWorkouts={setWorkouts}
-              SendDataToAssistant={SendDataToAssistant}
-            />
-          </Route>
-          <Route path="/fastworkout">
-            <Workout
-              groupId={groupId}
-              description={description}
-              workoutExercises={workoutExercises}
-              setWorkoutExercises={setWorkoutExercises}
-              name={name}
-              userId={userId}
-              workOutStarted={workOutStarted}
-              setWorkOutStartet={setWorkOutStartet}
-              iterChanged={iterChanged}
-            />
-          </Route>
-          <Route path="/calendar" exact>
-            <SportCalendar userId={userId} />
-          </Route>
-          <Route path="/">
-            <Main setGroupId={setGroupId} ToChooseCateg={SendDataToAssistant} />
-          </Route>
-        </Switch>
-      ) : (
+      {/* {assistant.current ? ( */}
+      <Switch>
+        <Route path="/choose">
+          <Choose
+            setGroupId={setGroupId}
+            setDescription={setDescription}
+            setName={setName}
+            workouts={workouts}
+            setWorkouts={setWorkouts}
+            SendDataToAssistant={SendDataToAssistant}
+          />
+        </Route>
+        <Route path="/fastworkout">
+          <Workout
+            groupId={groupId}
+            description={description}
+            workoutExercises={workoutExercises}
+            setWorkoutExercises={setWorkoutExercises}
+            name={name}
+            userId={userId}
+            workOutStarted={workOutStarted}
+            setWorkOutStartet={setWorkOutStartet}
+            iterChanged={iterChanged}
+          />
+        </Route>
+        <Route path="/calendar" exact>
+          <SportCalendar userId={userId} />
+        </Route>
+        <Route path="/">
+          <Main setGroupId={setGroupId} ToChooseCateg={SendDataToAssistant} />
+        </Route>
+      </Switch>
+      {/* ) : (
         <Container>
           <Spinner />
         </Container>
-      )}
+      )} */}
     </AppStyled>
   );
 }

@@ -15,11 +15,11 @@ const SportCalendar = ({ userId }) => {
     selected: (date) =>
       selectedDates.some((selectedDate) => isSameDay(selectedDate, date)),
   };
-  const handleDayClick = (date) => {
+  const handleDayClick = async (date) => {
     //var date = new Date();
 
     setSelectedDates([...selectedDates, date]);
-    //console.log(selectedDates);
+    await ApiQueries.createProgressAchieve(userId, date);
   };
   const [digit, setDigit] = useState(-1);
   const getData = async (uid) => {
