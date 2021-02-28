@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/SberHack/static/css/main.82ca3fd9.chunk.css",
-    "main.js": "/SberHack/static/js/main.745dad94.chunk.js",
-    "main.js.map": "/SberHack/static/js/main.745dad94.chunk.js.map",
+    "main.js": "/SberHack/static/js/main.c13c6725.chunk.js",
+    "main.js.map": "/SberHack/static/js/main.c13c6725.chunk.js.map",
     "runtime-main.js": "/SberHack/static/js/runtime-main.81d343f2.js",
     "runtime-main.js.map": "/SberHack/static/js/runtime-main.81d343f2.js.map",
     "static/css/2.760e81b1.chunk.css": "/SberHack/static/css/2.760e81b1.chunk.css",
@@ -18,6 +18,6 @@
     "static/css/2.760e81b1.chunk.css",
     "static/js/2.86214140.chunk.js",
     "static/css/main.82ca3fd9.chunk.css",
-    "static/js/main.745dad94.chunk.js"
+    "static/js/main.c13c6725.chunk.js"
   ]
 }
