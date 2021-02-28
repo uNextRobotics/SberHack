@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/SberHack/static/css/main.82ca3fd9.chunk.css",
+    "main.js": "/SberHack/static/js/main.745dad94.chunk.js",
+    "main.js.map": "/SberHack/static/js/main.745dad94.chunk.js.map",
+    "runtime-main.js": "/SberHack/static/js/runtime-main.81d343f2.js",
+    "runtime-main.js.map": "/SberHack/static/js/runtime-main.81d343f2.js.map",
+    "static/css/2.760e81b1.chunk.css": "/SberHack/static/css/2.760e81b1.chunk.css",
+    "static/js/2.86214140.chunk.js": "/SberHack/static/js/2.86214140.chunk.js",
+    "static/js/2.86214140.chunk.js.map": "/SberHack/static/js/2.86214140.chunk.js.map",
+    "index.html": "/SberHack/index.html",
+    "static/css/2.760e81b1.chunk.css.map": "/SberHack/static/css/2.760e81b1.chunk.css.map",
+    "static/css/main.82ca3fd9.chunk.css.map": "/SberHack/static/css/main.82ca3fd9.chunk.css.map",
+    "static/js/2.86214140.chunk.js.LICENSE.txt": "/SberHack/static/js/2.86214140.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.81d343f2.js",
+    "static/css/2.760e81b1.chunk.css",
+    "static/js/2.86214140.chunk.js",
+    "static/css/main.82ca3fd9.chunk.css",
+    "static/js/main.745dad94.chunk.js"
+  ]
+}
