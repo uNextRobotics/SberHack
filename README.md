@@ -10,8 +10,8 @@ CanvasApp-агрегатор утренних зарядок. Пользоват
 
 Инструкцию по сборке проекта
 Фронтенд:
-npm i
-npm start
+1) npm i
+2) npm start
 
 Бэкенд:
 uvicorn main:app --reload
