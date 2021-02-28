@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://194.58.122.45:6537/";
+const API_URL = "http://127.0.0.1:8000/";
 async function createSberId(SberId) {
   const { data: newSberId } = await axios.post(`${API_URL}SberId`, {
     SberId,
@@ -8,13 +8,14 @@ async function createSberId(SberId) {
   return newSberId;
 }
 
-async function createUser(SberId, Name, Age, Gender, Active) {
+async function createUser(UserId) {
   const { data: newUser } = await axios.post(`${API_URL}User`, {
-    SberId,
-    Name,
-    Age,
-    Gender,
-    Active,
+    UserId: UserId,
+    SberId: 0,
+    Name: "",
+    Age: 0,
+    Gender: "",
+    Active: 0,
   });
   return newUser;
 }
@@ -50,7 +51,7 @@ async function getCategoryById(CategoryId) {
 async function getProverkaUsersByUserId(UserId) {
   const category = await axios.get(`${API_URL}ProverkaUsersByUserId`, {
     params: {
-      UserId: UserId,
+      user_id: UserId,
     },
   });
   return category;
@@ -69,18 +70,18 @@ async function getExircicesfromGroup(GroupId) {
 }
 
 async function createProgressAchieve(UserId, date, Completed) {
-  const { data: newProgress } = axios.post(`${API_URL}Progress`, {
-    UserId,
-    date,
-    Completed,
+  const { data: newProgress } = axios.post(`${API_URL}ProgressAchieve`, {
+    UserId: UserId,
+    Date: date,
+    Completed: true,
   });
   return newProgress;
 }
 
 async function getProgressByUser(UserId) {
-  const progress = axios.get(`${API_URL}Progress`, {
+  const progress = axios.get(`${API_URL}ProgressByUser`, {
     params: {
-      UserId: UserId,
+      user_id: UserId,
     },
   });
   return progress;

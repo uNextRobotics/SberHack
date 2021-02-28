@@ -1,11 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./App.css";
 import "react-toastify/dist/ReactToastify.css";
-
-import styled, { createGlobalStyle } from "styled-components";
-import { sberBox } from "@sberdevices/plasma-tokens/typo";
-import { darkJoy } from "@sberdevices/plasma-tokens/themes";
+import { AssistantCharacterType } from "@sberdevices/assistant-client";
+import { darkJoy, darkEva, darkSber } from "@sberdevices/plasma-tokens/themes";
 import { text, background, gradient } from "@sberdevices/plasma-tokens";
+import { Container } from "@sberdevices/ui";
+
+import { createGlobalStyle } from "styled-components";
+import styled from "styled-components";
+import { sberBox } from "@sberdevices/plasma-tokens/typo";
 import SportCalendar from "./pages/SportCalendar";
 import { body1 } from "@sberdevices/ui/components/Typography";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
@@ -20,24 +23,37 @@ import {
   AssistantAppState,
 } from "@sberdevices/assistant-client";
 import { set } from "date-fns";
+import { Spinner } from "@sberdevices/ui";
 
 const AppStyled = styled.div`
   padding: 30px;
   ${body1}
 `;
 const TypoScale = createGlobalStyle(sberBox);
-const DocStyles = createGlobalStyle`
-    /* stylelint-disable-next-line selector-nested-pattern */
-    html {
-        color: ${text};
-        background-color: ${background};
-        background-image: ${gradient};
-        /** необходимо залить градиентом всю подложку */
-        min-height: 100vh;
-    }
-`;
-const Theme = createGlobalStyle(darkJoy);
+// const DocStyles = createGlobalStyle`
+//     /* stylelint-disable-next-line selector-nested-pattern */
+//     html {
+//         color: ${text};
+//         background-color: ${background};
+//         background-image: ${gradient};
+//         /** необходимо залить градиентом всю подложку */
+//         min-height: 100vh;
+//     }
+// `;
+// const Theme = createGlobalStyle(darkJoy);
 //const assistant=null;
+const ThemeBackgroundEva = createGlobalStyle(darkEva);
+const ThemeBackgroundSber = createGlobalStyle(darkSber);
+const ThemeBackgroundJoy = createGlobalStyle(darkJoy);
+
+const DocStyles = createGlobalStyle`
+  html {
+    color: ${text};
+    background-color: ${background};
+    background-image: ${gradient};
+    min-height: 100vh;
+  }
+`;
 
 const initializeAssistant = (getState /*: any*/) => {
   if (process.env.NODE_ENV === "development") {
@@ -53,6 +69,8 @@ const initializeAssistant = (getState /*: any*/) => {
 };
 
 function App() {
+  const [character, setCharacter] = useState("sber");
+
   var assistant = useRef();
   var state = {
     notes: [],
@@ -110,6 +128,10 @@ function App() {
     console.log("dispatchAssistantAction", action);
     if (action) {
       switch (action.type) {
+        case "character":
+          setCharacter(action.character.id);
+          // 'sber' | 'eva' | 'joy';
+          break;
         case "show_calendar":
           ChangePage("Calendar");
           break;
@@ -157,37 +179,56 @@ function App() {
   const [groupId, setGroupId] = useState(2);
   const [description, setDescription] = useState("описание");
   const [name, setName] = useState("Быстрая тренировка");
+
   return (
     <AppStyled>
-      <TypoScale />
       <DocStyles />
-      <Theme />
-      <Switch>
-        <Route path="/choose">
-          <Choose
-            setGroupId={setGroupId}
-            setDescription={setDescription}
-            setName={setName}
-            workouts={workouts}
-            setWorkouts={setWorkouts}
-          />
-        </Route>
-        <Route path="/fastworkout">
-          <Workout
-            groupId={groupId}
-            description={description}
-            workoutExercises={workoutExercises}
-            setWorkoutExercises={setWorkoutExercises}
-            name={name}
-          />
-        </Route>
-        <Route path="/calendar" exact>
-          <SportCalendar userId={userId} />
-        </Route>
-        <Route path="/">
-          <Main setGroupId={setGroupId} />
-        </Route>
-      </Switch>
+      <TypoScale />
+      {(() => {
+        switch (character) {
+          case "sber":
+            return <ThemeBackgroundSber />;
+          case "eva":
+            return <ThemeBackgroundEva />;
+          case "joy":
+            return <ThemeBackgroundJoy />;
+          default:
+            return;
+        }
+      })()}
+      {assistant.current ? (
+        <Switch>
+          <Route path="/choose">
+            <Choose
+              setGroupId={setGroupId}
+              setDescription={setDescription}
+              setName={setName}
+              workouts={workouts}
+              setWorkouts={setWorkouts}
+            />
+          </Route>
+          <Route path="/fastworkout">
+            <Workout
+              groupId={groupId}
+              description={description}
+              workoutExercises={workoutExercises}
+              setWorkoutExercises={setWorkoutExercises}
+              name={name}
+              userId={userId}
+            />
+          </Route>
+          <Route path="/calendar" exact>
+            <SportCalendar userId={userId} />
+          </Route>
+          <Route path="/">
+            <Main setGroupId={setGroupId} />
+          </Route>
+        </Switch>
+      ) : (
+        <Container>
+          <Spinner />
+        </Container>
+      )}
     </AppStyled>
   );
 }

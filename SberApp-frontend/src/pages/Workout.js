@@ -65,6 +65,7 @@ const Workout = ({
   setWorkoutExercises,
   description,
   name,
+  userId,
 }) => {
   const history = useHistory();
   const [workOutStarted, setWorkOutStartet] = useState(false);
@@ -116,7 +117,7 @@ const Workout = ({
               <CardContent>
                 <TextBox>
                   <TextBoxBigTitle>Описание</TextBoxBigTitle>
-                  <TextBoxSubTitle>10 минут</TextBoxSubTitle>
+                  {/* <TextBoxSubTitle>10 минут</TextBoxSubTitle> */}
                   <CardParagraph1 style={{ marginTop: "0.75rem" }} lines={4}>
                     {description}
                   </CardParagraph1>
@@ -187,7 +188,11 @@ const Workout = ({
                     </div>
                     <br />
                     <Button
-                      onClick={() => {
+                      onClick={async () => {
+                        await ApiQueries.createProgressAchieve(
+                          userId,
+                          new Date()
+                        );
                         history.push("/");
                       }}
                     >
@@ -239,21 +244,44 @@ const Workout = ({
                         <CardParagraph1 lines={5}>
                           {workoutExercises[iter].discription}
                         </CardParagraph1>
-                        <Button
-                          view="primary"
-                          size="s"
-                          scaleOnInteraction={false}
-                          outlined={false}
-                          fullWidth
-                          style={{ marginTop: "1em" }}
-                          tabIndex={-1}
-                          onClick={() => {
-                            console.log(workoutExercises);
-                            setIter(iter + 1);
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-between",
                           }}
                         >
-                          Следующее
-                        </Button>
+                          <Button
+                            view="primary"
+                            size="s"
+                            scaleOnInteraction={false}
+                            outlined={false}
+                            fullWidth
+                            disabled={iter == 0}
+                            style={{ marginTop: "1em", marginRight: "1em" }}
+                            tabIndex={-1}
+                            onClick={() => {
+                              console.log(workoutExercises);
+                              setIter(iter - 1);
+                            }}
+                          >
+                            Предыдущее
+                          </Button>
+                          <Button
+                            view="primary"
+                            size="s"
+                            scaleOnInteraction={false}
+                            outlined={false}
+                            fullWidth
+                            style={{ marginTop: "1em" }}
+                            tabIndex={-1}
+                            onClick={() => {
+                              console.log(workoutExercises);
+                              setIter(iter + 1);
+                            }}
+                          >
+                            Следующее
+                          </Button>
+                        </div>
                       </div>
                     </div>
                   </div>

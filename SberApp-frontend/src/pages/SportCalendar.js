@@ -4,12 +4,11 @@ import { Calendar } from "react-nice-dates";
 import "react-nice-dates/build/style.css";
 import { ru } from "date-fns/locale";
 import { isSameDay } from "date-fns";
-import { Container } from "@sberdevices/ui";
+import { Button, Container } from "@sberdevices/ui";
 import ApiQueries from "../ApiQueries";
 
 import "./SportCalendar.css";
 const SportCalendar = ({ userId }) => {
-  const [selectedDates, setSelectedDates] = useState([]);
   const [date, setDate] = useState();
 
   const modifiers = {
@@ -18,21 +17,76 @@ const SportCalendar = ({ userId }) => {
   };
   const handleDayClick = (date) => {
     var date = new Date();
+
     setSelectedDates([...selectedDates, date]);
-    console.log(selectedDates);
+    //console.log(selectedDates);
+  };
+  const [digit, setDigit] = useState(-1);
+  const getData = async (uid) => {
+    console.log(uid);
+    await ApiQueries.getProverkaUsersByUserId(uid).then((data) =>
+      setDigit(data.data)
+    );
   };
   useEffect(() => {
-    console.log(ApiQueries.getProverkaUsersByUserId(userId));
-  }, []);
+    getData(userId);
+    // const fetchDates = async (uid) => {
+    //   const res = await ApiQueries.getProverkaUsersByUserId(uid);
+    //   setDigit(res.data);
+    // };
+    // fetchDates(userId);
+  }, [digit]);
+  const [recievedData, setRecievedData] = useState([]);
+  useEffect(() => {
+    if (digit == 1) {
+      console.log("here");
+      const progress = async (uid) => {
+        var res = await ApiQueries.getProgressByUser(uid);
+
+        res.data.push({
+          date: "Thu Feb 25 2021 04:26:51 GMT+0300 (Москва, стандартное время)",
+        });
+
+        res.data.push({
+          date: "Thu Feb 27 2021 04:26:51 GMT+0300 (Москва, стандартное время)",
+        });
+        console.log(res.data);
+        setRecievedData(res.data);
+
+        //console.log(res.data[0].date)
+      };
+      progress(userId);
+    } else if (digit == 0) {
+      console.log("here 2");
+
+      const createU = async (uid) => {
+        var a = await ApiQueries.createUser(uid);
+      };
+      createU(userId);
+      getData(userId);
+    }
+  }, [digit]);
+  useEffect(() => {
+    recievedData.forEach((element) => {
+      console.log(element);
+      setSelectedDates([...selectedDates, Date.parse(element.date)]);
+    });
+  }, [recievedData]);
+  const [selectedDates, setSelectedDates] = useState([]);
+
   return (
     <div style={{ height: "50%" }}>
       <Container>
-        <Calendar
-          onDayClick={handleDayClick}
-          modifiers={modifiers}
-          locale={ru}
-          date={date}
-        />
+        {digit == 1 ? (
+          <Calendar
+            onDayClick={handleDayClick}
+            modifiers={modifiers}
+            locale={ru}
+            date={date}
+          />
+        ) : (
+          <div>ok</div>
+        )}
       </Container>
     </div>
   );
