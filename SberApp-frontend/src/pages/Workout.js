@@ -67,7 +67,7 @@ const Workout = ({
   userId,
   workOutStarted,
   setWorkOutStartet,
-
+  setAchieves,
   iterChanged,
 }) => {
   const history = useHistory();
@@ -199,11 +199,7 @@ const Workout = ({
                     </div>
                     <br />
                     <Button
-                      onClick={async () => {
-                        await ApiQueries.createProgressAchieve(
-                          userId,
-                          new Date()
-                        );
+                      onClick={() => {
                         setWorkOutStartet(false);
                         history.push("/");
                       }}
@@ -228,6 +224,9 @@ const Workout = ({
                           setIter={setIter}
                           timeCount={{ timeCount: workoutExercises[iter].time }}
                           iter={iter}
+                          userId={userId}
+                          workoutLength={workoutExercises.length}
+                          setAchieves={setAchieves}
                         />
                       </div>
                     </div>
@@ -287,6 +286,21 @@ const Workout = ({
                             style={{ marginTop: "1em" }}
                             tabIndex={-1}
                             onClick={() => {
+                              if (iter + 1 == workoutExercises.length) {
+                                const getUserAchieves = async () => {
+                                  await ApiQueries.createProgressAchieve(
+                                    userId,
+                                    new Date(),
+                                    true
+                                  );
+                                  var ach = await ApiQueries.getAchiviesFomUser(
+                                    userId
+                                  );
+                                  setAchieves(ach.data);
+                                };
+                                getUserAchieves();
+                              }
+
                               setIter(iter + 1);
                             }}
                           >

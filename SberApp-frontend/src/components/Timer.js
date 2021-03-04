@@ -5,6 +5,8 @@ import { text, background, gradient } from "@sberdevices/plasma-tokens";
 import { Button } from "@sberdevices/ui";
 import { IconHouse } from "@sberdevices/plasma-icons";
 import "./Modal.css";
+import ApiQueries from "../ApiQueries";
+
 import { Headline2 } from "@sberdevices/ui/components/Typography";
 import { BrowserRouter as Router, useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
@@ -40,7 +42,14 @@ const customStyles = {
 //     }
 // `;
 // Make sure to bind modal to your appElement (http://reactcommunity.org/react-modal/accessibility/)
-export const Timer = ({ setIter, timeCount, iter }) => {
+export const Timer = ({
+  setIter,
+  timeCount,
+  iter,
+  userId,
+  workoutLength,
+  setAchieves,
+}) => {
   const history = useHistory();
 
   var subtitle;
@@ -93,6 +102,14 @@ export const Timer = ({ setIter, timeCount, iter }) => {
       timer = setTimeout(() => setCounterRest((c) => c - 1), 1000);
     } else if (counter === 0) {
       setIsOpen(false);
+      if (iter + 1 == workoutLength) {
+        const getUserAchieves = async () => {
+          await ApiQueries.createProgressAchieve(userId, new Date(), true);
+          var ach = await ApiQueries.getAchiviesFomUser(userId);
+          setAchieves(ach.data);
+        };
+        getUserAchieves();
+      }
       setIter(iter + 1);
       setCounter(timeCount);
     }

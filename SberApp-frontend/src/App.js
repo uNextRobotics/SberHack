@@ -59,9 +59,9 @@ const initializeAssistant = (getState /*: any*/) => {
   if (process.env.NODE_ENV === "development") {
     return createSmartappDebugger({
       token:
-        "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MTQ1MDY0MzksImV4cCI6MTYxNDU5MjgzOSwidHlwZSI6IkJlYXJlciIsImp0aSI6ImQ1NmIzMjUyLTYyODQtNDJkMy04MDQzLTIxZjlhNjEzMWQ2NyIsInN1YiI6IjdkMTM4N2FhY2RiYjY0ZTMwNTE3ODQ3ZGVhNzgwMDNmMTA4NjE1YmNlZGIzNTlmYjhmNWJiMWVkOGI0OTU3ZmM1MzliZTkyNzAwNDI2Mjk4IiwiYXVkIjoiVlBTIn0.O67QZgv6jRgPfrX_Cya1LGqgidb0gftwvoUiWHSinSAvJcGsC8bK7iwpWoQZQ-JYcBAtnvd7mGVX5Vteuf4y-_EaaWIBr2w-AkWjyuTxvTof9gFBpS71MVIZGCY6VPDW20Ji2Lg0bD0Rby_FRAqqPgYo_r1xeMg6rHNmSSBHJXS8fwee9VOovraThPIAaDbQua_hp_mVy3vNpdXf4Ug1SCa_vDKxSVGsqcJoFgwTMv7xVqtgzWTNOw5BRQuvs5kZd_4UiWFzfKdFbzrryLHaJiF8zgwTG_yxDGuI73366AYYEWeXnnAgdQHFYZwpmm-KGSzSWGNddlRoWwUOk9n_xYgTLQWJxO1b9i2G7MoUuVnsQGwGuwjyPX6ycz6kKUTtKGJM2jg5ssxeY2CYqw-4f0OmwaUgbqeUFnG-FYVV0yihZL8-xGS8D44yEaUnBlAMl2S5w7ZXoScVeO2tTiOQQp0XRNq4QvelLBgAZLb3Xhe_JvjPhRblVfIkPaeTMPT4Wg_YLlbUHJXT2e7TE22oaXDS0mkSXmI505VfKkFpbwd03ohmIdqH-uxsd4GMUr639OZDVAp83zTYLWX812mQKA8aE3jCFoTIRrDZkTryjaR94bdu06QVETJDdfbhW3XQleai90TWe1ePLFTG2xhR8hNkSiYay0-UY7JfMilEP3Y" ??
+        "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MTQ4NTk3OTgsImV4cCI6MTYxNDk0NjE5OCwidHlwZSI6IkJlYXJlciIsImp0aSI6IjBkYmY5MmI3LTg2MDctNDk2Yi1iZTUyLTExOWI1Mjc1ZjBkZCIsInN1YiI6IjdkMTM4N2FhY2RiYjY0ZTMwNTE3ODQ3ZGVhNzgwMDNmMTA4NjE1YmNlZGIzNTlmYjhmNWJiMWVkOGI0OTU3ZmM1MzliZTkyNzAwNDI2Mjk4IiwiYXVkIjoiVlBTIn0.mNR5a8AMZFw_6S8sMH3BX3s3OsTt32EC1ARnUgFXbOLemyLWf4R3sOrdtjU8kLSkQjlBLqLN3ljhyVmnnec4UoBQvDSSQLCAJiiKF-yzVZaebMFotO68CeFmW8wVvAAdmoKF1C-UIGjpzMREYTmidguPdaDsXskwTa7G9NiZsdN9QQwdwVoBgpcg3f7q9VmBM6dBS6fcaFC98By4w3x5yQM6T_crRLI82hQjniO_WJNPjiphaia8RunrboEzZANO2h2sClnpbPo5B3ZnD1qexwd89ZUYbBs4bry0EUjfTh5WGwKm8izF4X1yFv7cHF5fXpe_O6DHRXzA0t-aFvgXGan1M8zc0WWYOfdOy4sPBxhoxe1AGjLNP8KhukPVx2dTlPKW_dacWGTde1dFt6kcRP9iayTgbDJBiHLAXP2HhuTlTYm-5ralYIapQoF1zpytq0tTaTsd-H_tlRIn2QYzB3P33OmtFRLqWU84ybq5dOlg9Cx_RbXB41oiLxeVZ7GbkkElMljQCqaJiBJbR8xeRpAkpX8h5_Pfs6X_M59HtdhjwsZZzvWZYJYs5rY5-FYN8owbT0p9DN6Xp7DyHORSvbvdICnoV4kjwkXqrPgZiPuVJszfOpI71NKkVC7PSKNNwRH28g8I2-4qp5UhioFNGh3KVmxyJ-thgvvjy6ZPn84" ??
         "",
-      initPhrase: `Запусти MorningTraining`,
+      initPhrase: `Запусти Бодрое утро`,
       getState,
     });
   }
@@ -81,6 +81,7 @@ function App() {
   const [userId, setUserId] = useState([]);
   const [workOutStarted, setWorkOutStartet] = useState(false);
   const [iterChanged, setIterChanged] = useState(-1);
+  const [digit, setDigit] = useState(-1);
   const getStateForAssistant = () => {
     console.log("getStateForAssistant: this.state:", state);
     const state_ = {
@@ -94,6 +95,12 @@ function App() {
     };
     console.log("getStateForAssistant: state:", state);
     return state_;
+  };
+
+  const getData = async (Id) => {
+    await ApiQueries.getProverkaUsersByUserId(Id).then((data) =>
+      setDigit(data.data)
+    );
   };
 
   const ChangePage = async (page) => {
@@ -191,7 +198,7 @@ function App() {
       }
     }
   };
-
+  const [achieves, setAchieves] = useState([]);
   useEffect(() => {
     if (assistant.current == undefined) {
       assistant.current = initializeAssistant(() => getStateForAssistant());
@@ -205,7 +212,16 @@ function App() {
       (event /*: any*/) => {
         if (event.type == "smart_app_data") {
           console.log("userId", event.user_id);
-          setUserId(event.user_id);
+          if (event.user_id != undefined) {
+            setUserId(event.user_id);
+            getData(event.user_id);
+            ApiQueries.createUser(userId);
+          }
+          const getUserAchieves = async () => {
+            var ach = await ApiQueries.getAchiviesFomUser(event.user_id);
+            setAchieves(ach.data);
+          };
+          getUserAchieves();
         }
         console.log(`assistant.on(data)`, event);
         const { action } = event;
@@ -274,13 +290,18 @@ function App() {
             workOutStarted={workOutStarted}
             setWorkOutStartet={setWorkOutStartet}
             iterChanged={iterChanged}
+            setAchieves={setAchieves}
           />
         </Route>
         <Route path="/calendar" exact>
-          <SportCalendar userId={userId} />
+          <SportCalendar userId={userId} digit={digit} />
         </Route>
         <Route path="/">
-          <Main setGroupId={setGroupId} ToChooseCateg={SendDataToAssistant} />
+          <Main
+            setGroupId={setGroupId}
+            ToChooseCateg={SendDataToAssistant}
+            achieves={achieves}
+          />
         </Route>
       </Switch>
       {/* ) : (

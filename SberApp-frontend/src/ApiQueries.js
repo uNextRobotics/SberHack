@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "https://mostrolleybus.ru:6536/";
+const API_URL = "http://127.0.0.1:8000/";
 async function createSberId(SberId) {
   const { data: newSberId } = await axios.post(`${API_URL}SberId`, {
     SberId,
@@ -96,6 +96,14 @@ async function updateQuestion(id, payload) {
   const { data: newQuestion } = await axios.put(`${API_URL}${id}`, payload);
   return newQuestion;
 }
+async function getAchiviesFomUser(UserId) {
+  const ach = axios.get(`${API_URL}AchiviesFomUser`, {
+    params: {
+      user_id: UserId,
+    },
+  });
+  return ach;
+}
 export default {
   API_URL,
   getAllGroupsExercises,
@@ -105,4 +113,5 @@ export default {
   createProgressAchieve,
   createUser,
   getProverkaUsersByUserId,
+  getAchiviesFomUser,
 };

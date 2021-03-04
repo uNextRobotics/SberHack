@@ -7,6 +7,8 @@ import {
   IconDone,
   IconApps,
   IconCross,
+  IconEvent,
+  IconHeart,
 } from "@sberdevices/plasma-icons";
 import { Headline3 } from "@sberdevices/ui/components/Typography";
 
@@ -21,10 +23,12 @@ import {
   CellIcon,
   TextBoxTitle,
   MarkedList,
+  Badge,
   MarkedItem,
+  IconSettings,
 } from "@sberdevices/ui";
 import { tertiary, primary, accent } from "@sberdevices/plasma-tokens";
-const Main = ({ setGroupId, ToChooseCateg }) => {
+const Main = ({ setGroupId, ToChooseCateg, achieves }) => {
   return (
     <div
       style={{
@@ -70,7 +74,7 @@ const Main = ({ setGroupId, ToChooseCateg }) => {
                   <IconApps />
                 </CellIcon>
               }
-              onClick={() =>ToChooseCateg()}
+              onClick={() => ToChooseCateg()}
               content={
                 <TextBox>
                   <TextBoxTitle>Меню тренировок</TextBoxTitle>
@@ -105,24 +109,40 @@ const Main = ({ setGroupId, ToChooseCateg }) => {
         </CardContent>
       </Card>
       <div style={{ flexDirection: "column" }}>
-        <Headline3>Ваши достижения</Headline3>
-        <br />
+        <br /> <br />
+        <Headline3>Ваша статистика</Headline3>
         <MarkedList>
-          <MarkedItem text="Первая тренировка" style={{ color: primary }}>
-            <IconDone size="xs" color={accent} />
-          </MarkedItem>
+          {/* <div
+            style={{
+              display: "flex",
+              flexDirection: "",
+              justifyContent: "center",
+            }}
+          > */}
           <MarkedItem
-            text="Занятия в течение 3х дней"
+            text="дней с тренировками подряд"
             style={{ color: primary }}
           >
-            <IconDone size="xs" color={accent} />
+            {/* <IconEvent size="xs" color={accent} /> */}
+            <Badge text={achieves.dict} size={"l"} view={"secondary"} />
           </MarkedItem>
+          {/* </div> */}
 
           <MarkedItem
-            text="Занятия в течение 10 дней"
-            style={{ color: tertiary }}
+            text="всего дней с тренировками"
+            style={{ color: primary }}
           >
-            <IconCross size="xs" color={tertiary} />
+            {/* <IconDone size="xs" color={accent} /> */}
+            <Badge
+              text={achieves.count_days_train}
+              size={"l"}
+              view={"secondary"}
+            />
+          </MarkedItem>
+
+          <MarkedItem text="общее число тренировок" style={{ color: primary }}>
+            {/* <IconHeart size="xs" color={accent} /> */}
+            <Badge text={achieves.count_train} size={"l"} view={"secondary"} />
           </MarkedItem>
         </MarkedList>
         <br />
